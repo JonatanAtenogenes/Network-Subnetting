@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Subneteo de Redes IPv4</title>
+    <link rel="stylesheet" href="./static/css/style.css" />
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
+  </head>
+  <body>
+    <section id="header-section">
+      <h1>Subneteo de Redes IPv4</h1>
+    </section>
+
+    <section id="ip-definition-section">
+      <label for="red-ip">Red IP</label>
+      <br />
+      <input type="text" name="red-ip" id="red-ip" placeholder="192.168.0.0" />
+      <br />
+    </section>
+
+    <section id="host-definition-section">
+      <label for="no-host">No. de Host</label>
+      <br />
+      <input
+        type="number"
+        name="no-host"
+        id="no-host"
+        class="host-definition"
+      />
+      <br />
+    </section>
+
+    <button onclick="addingHostInput()">Agregar Hosts</button>
+
+    <button>Realizar Subneteo</button>
+
+    <section id="footer-section">
+      <a
+        href="https://www.flaticon.es/iconos-gratis/informatica"
+        title="informática iconos"
+        >Informática iconos creados por catkuro - Flaticon</a
+      >
+    </section>
+
+    <script src="./static/js/script.js"></script>
+  </body>
+</html>
