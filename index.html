@@ -9,13 +9,21 @@
   </head>
   <body>
     <section id="header-section">
-      <h1>Subneteo de Redes IPv4</h1>
+      <div id="header">
+        <h1>Subneteo de Redes IPv4</h1>
+      </div>
     </section>
 
     <section id="ip-definition-section">
       <label for="red-ip">Red IP</label>
       <br />
-      <input type="text" name="red-ip" id="red-ip" placeholder="192.168.0.0" />
+      <input
+        type="text"
+        name="red-ip"
+        id="red-ip"
+        placeholder="192.168.0.0"
+        value="192.168.0.0"
+      />
       <br />
     </section>
 
@@ -31,9 +39,33 @@
       <br />
     </section>
 
-    <button onclick="addingHostInput()">Agregar Hosts</button>
+    <button id="adding-host-btn">Agregar Hosts</button>
 
-    <button>Realizar Subneteo</button>
+    <button id="calculate-subnetting">Realizar Subneteo</button>
+
+    <section id="ip-network-subnetting-section">
+      <div id="ip-network-subnetting">
+        <table id="ip-subnetting-table">
+          <caption>
+            IP:
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Host</th>
+              <th scope="col">Bits</th>
+              <th scope="col">Total Host</th>
+              <th scope="col">Network IP</th>
+              <th scope="col">Initial IP</th>
+              <th scope="col">Final IP</th>
+              <th scope="col">Broadcast IP</th>
+              <th scope="col">Prefix Length</th>
+              <th scope="col">Subnet Mask</th>
+              <th scope="col">Wildcard</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+    </section>
 
     <section id="footer-section">
       <a
@@ -43,6 +75,6 @@
       >
     </section>
 
-    <script src="./static/js/script.js"></script>
+    <script src="./static/js/script.js" type="module"></script>
   </body>
 </html>

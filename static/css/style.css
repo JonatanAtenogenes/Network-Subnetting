@@ -1,3 +1,20 @@
-#header-section {
+#header {
     background-color: #222831;
+}
+
+#header > h1 {
+    font-size: 3rem;
+    color: #EEEEEE;
+}
+
+#ip-definition-section {
+    background-color: #76ABAE;
+}
+
+#host-definition-section {
+    background-color: #76ABAE;
+}
+
+#ip-network-subnetting {
+    display: none;
 }

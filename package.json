@@ -1,0 +1,6 @@
+{
+    "type": "module",
+    "scripts": {
+      "start": "node ../Network_Subnetting/static/js/script.js"
+    }
+}
