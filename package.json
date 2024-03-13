@@ -1,6 +1,17 @@
 {
     "type": "module",
     "scripts": {
-      "start": "node ../Network_Subnetting/static/js/script.js"
+        "start": "node ../Network_Subnetting/static/js/script.js",
+        "test_binary_operations": "jest ../Network_Subnetting/test/modules/binary_operations.test.js"
+    },
+    "jest": {
+        "setupFiles": ["../Network_Subnetting/jest.setup.js"],
+        "testEnvironment": "node"
+    },
+    "dependencies": {
+        "@babel/core": "^7.24.0",
+        "@babel/preset-env": "^7.24.0",
+        "@babel/register": "^7.23.7",
+        "jest": "^29.7.0"
     }
 }

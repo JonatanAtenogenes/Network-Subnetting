@@ -18,3 +18,8 @@
 #ip-network-subnetting {
     display: none;
 }
+
+#ip-network-messages {
+    color: red;
+    font-style: italic;
+}

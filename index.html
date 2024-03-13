@@ -15,38 +15,42 @@
     </section>
 
     <section id="ip-definition-section">
-      <label for="red-ip">Red IP</label>
-      <br />
-      <input
-        type="text"
-        name="red-ip"
-        id="red-ip"
-        placeholder="192.168.0.0"
-        value="192.168.0.0"
-      />
-      <br />
+      <div id="ip-definition">
+        <label for="ip-network">Red IP</label>
+        <br />
+        <input
+          type="text"
+          name="ip-network"
+          id="ip-network"
+          placeholder="192.168.0.0"
+        />
+        <br />
+        <p id="ip-network-messages"></p>
+      </div>
     </section>
 
     <section id="host-definition-section">
-      <label for="no-host">No. de Host</label>
-      <br />
-      <input
-        type="number"
-        name="no-host"
-        id="no-host"
-        class="host-definition"
-      />
-      <br />
+      <div id="host-definition">
+        <label for="no-host">No. de Host</label>
+        <br />
+        <input
+          type="number"
+          name="no-host"
+          id="no-host"
+          class="host-definition-input"
+        />
+        <br />
+      </div>
     </section>
 
     <button id="adding-host-btn">Agregar Hosts</button>
 
-    <button id="calculate-subnetting">Realizar Subneteo</button>
+    <button id="calculate-subnetting-btn">Realizar Subneteo</button>
 
     <section id="ip-network-subnetting-section">
       <div id="ip-network-subnetting">
         <table id="ip-subnetting-table">
-          <caption>
+          <caption id="ip-subnetting-table-caption">
             IP:
           </caption>
           <thead>
