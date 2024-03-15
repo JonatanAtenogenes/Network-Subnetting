@@ -24,5 +24,5 @@ function pow(exponent, base = 2) {
  *
  **/
 function calculateNecessaryBits(neededHost) {
-  return Math.ceil(Math.log2(neededHost));
+  return Math.ceil(Math.log2(neededHost)) + 2;
 }

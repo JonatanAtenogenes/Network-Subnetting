@@ -19,7 +19,7 @@
     display: none;
 }
 
-#ip-network-messages {
+#ip-network-message {
     color: red;
     font-style: italic;
 }

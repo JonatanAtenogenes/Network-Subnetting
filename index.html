@@ -25,27 +25,31 @@
           placeholder="192.168.0.0"
         />
         <br />
-        <p id="ip-network-messages"></p>
+        <p id="ip-network-message"></p>
       </div>
     </section>
 
     <section id="host-definition-section">
       <div id="host-definition">
-        <label for="no-host">No. de Host</label>
+        <label for="number-of-host">No. de Host</label>
         <br />
         <input
           type="number"
-          name="no-host"
-          id="no-host"
+          name="number-of-host"
+          id="number-of-host"
           class="host-definition-input"
+          value="100"
+          placeholder="100"
+          min="0"
         />
+
         <br />
       </div>
     </section>
 
     <button id="adding-host-btn">Agregar Hosts</button>
 
-    <button id="calculate-subnetting-btn">Realizar Subneteo</button>
+    <button id="calculate-subnetting-btn" disabled>Realizar Subneteo</button>
 
     <section id="ip-network-subnetting-section">
       <div id="ip-network-subnetting">

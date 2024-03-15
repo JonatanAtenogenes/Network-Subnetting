@@ -1,7 +1,37 @@
-export { decimalToBinary, binaryToDecimal, convertToEightBitBinary };
+export {
+  decimalToBinary,
+  binaryToDecimal,
+  convertsToByte,
+  binarySumResults,
+  convertsTo4Bytes,
+};
 import { pow } from "./utils.js";
 
-function binarySum() {}
+function binarySum(ipNetwork, numberHost) {
+  // Iterates over the 4 blocks of the IP Network
+  for (let bitPosition = 3; bitPosition >= 0; bitPosition--) {
+    // Iterates over every bit of the byte
+    for (let bit = 7; bit >= 0; bit--) {
+      let sum = binarySumResults(
+        ipNetwork[bitPosition][bit],
+        numberHost[bitPosition][bit]
+      );
+    }
+  }
+}
+
+/**
+ * Computes the binary sum of two binary digits.
+ *
+ * @param {number} binA - The first binary digit (0 or 1).
+ * @param {number} binB - The second binary digit (0 or 1).
+ * @returns {number[]} An array representing the binary sum result, where the first element is the carry and the second element is the sum.
+ **/
+function binarySumResults(binA, binB) {
+  if (binA === 0 && binB === 0) return [0, 0];
+  else if (binA === 1 && binB === 1) return [1, 0];
+  else return [0, 1];
+}
 
 /**
  * Converts a decimal number to its binary representation.
@@ -41,7 +71,7 @@ function binaryToDecimal(binaryNumber) {
  * @param {number[]} binaryNumber - An array representing the binary number to be converted.
  * @returns {number[]} An eight-bit binary representation of the input binary number.
  **/
-function convertToEightBitBinary(binaryNumber) {
+function convertsToByte(binaryNumber) {
   let bits = binaryNumber.length;
   if (bits === 8) {
     return binaryNumber;
@@ -52,3 +82,36 @@ function convertToEightBitBinary(binaryNumber) {
   }
   return binaryNumber;
 }
+
+/**
+ * Separates a binary number into groups of eight bits.
+ *
+ * @param {number[]} binaryNumber - An array representing the binary number to be separated.
+ * @returns {number[][]} An array containing groups of eight-bit binary numbers.
+ **/
+function convertsTo4Bytes(binaryNumber) {
+  const formattedBinaryNumber = [];
+  let tmp = [];
+
+  // Loop through the binary number in reverse
+  for (let index = binaryNumber.length - 1; index >= 0; index--) {
+    // Add each bit to a temporary array
+    tmp.unshift(binaryNumber[index]);
+
+    // If the temporary array has reached 8 bits or it's the last iteration
+    if (tmp.length === 8 || index === 0) {
+      // Convert the temporary array to an eight-bit binary representation and add it to the formatted array
+      formattedBinaryNumber.unshift(convertsToByte(tmp.slice()));
+      tmp = []; // Reset the temporary array
+    }
+  }
+
+  // If the formatted array contains less than 4 groups of eight-bit binary numbers, pad with zeros
+  while (formattedBinaryNumber.length < 4) {
+    formattedBinaryNumber.unshift(convertsToByte(decimalToBinary(0)));
+  }
+
+  return formattedBinaryNumber;
+}
+
+function getPrefixLengthFromMask() {}

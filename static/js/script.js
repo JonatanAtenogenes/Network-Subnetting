@@ -2,7 +2,11 @@ import { pow, calculateNecessaryBits } from "../modules/utils.js";
 
 // Definition for Constants
 const IP_NETWORK_INPUT = document.getElementById("ip-network");
-const IP_NETWORK_MESSAGES = document.getElementById("ip-network-messages");
+const NUMBER_OF_HOST_INPUT = document.getElementsByClassName(
+  "host-definition-input"
+);
+const IP_NETWORK_MESSAGE = document.getElementById("ip-network-message");
+// const NOMBER_OF_HOST_MESSAGE = document.getElementById("ip-network-message");
 const ADDING_HOST_BUTTON = document.getElementById("adding-host-btn");
 const CALCULATE_SUBNETTING_BUTTON = document.getElementById(
   "calculate-subnetting-btn"
@@ -20,6 +24,9 @@ function addingHostInput() {
   hostInput.name = "no-host";
   hostInput.id = "no-host";
   hostInput.className = "host-definition-input";
+  hostInput.value = "100";
+  hostInput.placeholder = "100";
+  hostInput.min = "0";
 
   let brInput = document.createElement("br");
   hostDefinitionDiv.append(hostInput, brInput);
@@ -45,7 +52,7 @@ function calculateSubnetting() {
       `
       Index: ${index} 
       Value: ${inputValue.value} 
-      Needed Bits: ${calculateNecessaryBits(parseInt(inputValue.value) + 2)} 
+      Needed Bits: ${calculateNecessaryBits(parseInt(inputValue.value))} 
       Jumps: ${pow(9)}
       `
     );
@@ -83,12 +90,26 @@ function isBitInRange(ipNetwork) {
   return ipNetwork.every((bit) => bit < 256 && bit > -1);
 }
 
+/**
+ * Checks if all host definition inputs are valid.
+ *
+ * @returns {boolean} True if all inputs are valid, false otherwise.
+ **/
+function areHostDefinitionValid() {
+  return Array.from(NUMBER_OF_HOST_INPUT).every(
+    (input) =>
+      !isNaN(parseInt(input.value)) &&
+      parseInt(input.value) >= 1 &&
+      input.value !== ""
+  );
+}
+
 // Adding Event Listeners to Buttons
 ADDING_HOST_BUTTON.addEventListener("click", addingHostInput);
 CALCULATE_SUBNETTING_BUTTON.addEventListener("click", calculateSubnetting);
 
 // Adding Event Listeners to Inputs
-document.getElementById("ip-network").addEventListener("keyup", () => {
+IP_NETWORK_INPUT.addEventListener("keyup", () => {
   let ipNetwork = getIPNetworkInDecimal();
   console.log(isBitInRange(ipNetwork));
   console.log(isIPNetworkLengthCorrect(ipNetwork));
@@ -96,8 +117,26 @@ document.getElementById("ip-network").addEventListener("keyup", () => {
     isBitInRange(ipNetwork) && isIPNetworkLengthCorrect(ipNetwork);
   console.log(ipNetwork);
   if (!isValidIPNetwork) {
-    IP_NETWORK_MESSAGES.innerHTML = "Bad IP Network";
+    IP_NETWORK_MESSAGE.innerHTML = "Bad IP Network";
   } else {
-    IP_NETWORK_MESSAGES.innerHTML = "";
+    IP_NETWORK_MESSAGE.innerHTML = "";
+  }
+});
+
+Array.from(NUMBER_OF_HOST_INPUT).forEach((input) => {
+  input.addEventListener("input", () => {
+    console.log(`Valor de host: ${input.value}`);
+    let value = parseInt(input.value);
+    if (value < 1) {
+      input.value = 1;
+    }
+  });
+});
+
+document.body.addEventListener("input", () => {
+  if (areHostDefinitionValid()) {
+    CALCULATE_SUBNETTING_BUTTON.disabled = false;
+  } else {
+    CALCULATE_SUBNETTING_BUTTON.disabled = true;
   }
 });
