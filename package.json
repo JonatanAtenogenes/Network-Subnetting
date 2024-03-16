@@ -2,7 +2,7 @@
     "type": "module",
     "scripts": {
         "start": "node ../Network_Subnetting/static/js/script.js",
-        "test_binary_operations": "jest ../Network_Subnetting/test/modules/binary_operations.test.js"
+        "network_subnetting_test": "jest ../Network_Subnetting/test/modules/binary_operations.test.js ../Network_Subnetting/test/modules/utils.test.js"
     },
     "jest": {
         "setupFiles": ["../Network_Subnetting/jest.setup.js"],
