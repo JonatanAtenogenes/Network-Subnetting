@@ -4,20 +4,35 @@ export {
   convertsToByte,
   binarySumResults,
   convertsTo4Bytes,
+  binarySum,
 };
 import { pow } from "./utils.js";
 
+/**
+ * Performs binary addition between an IP network and a number of hosts.
+ *
+ * @param {number[][]} ipNetwork - An array representing the IP network in binary format.
+ * @param {number[][]} numberHost - An array representing the number of hosts in binary format.
+ * @returns {number[]} An array representing the binary sum of the IP network and the number of hosts.
+ **/
 function binarySum(ipNetwork, numberHost) {
   // Iterates over the 4 blocks of the IP Network
+  let result = [];
+  let carry = 0;
+
   for (let bitPosition = 3; bitPosition >= 0; bitPosition--) {
     // Iterates over every bit of the byte
     for (let bit = 7; bit >= 0; bit--) {
-      let sum = binarySumResults(
+      let partialSum = binarySumResults(
         ipNetwork[bitPosition][bit],
         numberHost[bitPosition][bit]
       );
+      let sum = binarySumResults(partialSum[1], carry);
+      result.unshift(sum[1]);
+      carry = partialSum[0] || sum[0];
     }
   }
+  return result;
 }
 
 /**

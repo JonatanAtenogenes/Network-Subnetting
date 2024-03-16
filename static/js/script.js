@@ -1,4 +1,9 @@
 import { pow, calculateNecessaryBits } from "../modules/utils.js";
+import {
+  convertsTo4Bytes,
+  convertsToByte,
+  decimalToBinary,
+} from "../modules/binary_operations.js";
 
 // Definition for Constants
 const IP_NETWORK_INPUT = document.getElementById("ip-network");
@@ -10,6 +15,12 @@ const IP_NETWORK_MESSAGE = document.getElementById("ip-network-message");
 const ADDING_HOST_BUTTON = document.getElementById("adding-host-btn");
 const CALCULATE_SUBNETTING_BUTTON = document.getElementById(
   "calculate-subnetting-btn"
+);
+const IP_NETWORK_SUBNETTING_DIV = document.getElementById(
+  "ip-network-subnetting"
+);
+const IP_SUBNETTING_TABLE_CAPTION = document.getElementById(
+  "ip-subnetting-table-caption"
 );
 
 /**
@@ -33,30 +44,18 @@ function addingHostInput() {
 }
 
 function calculateSubnetting() {
-  let selectedIP = document.getElementById("ip-network").value;
-  let hostDefinition = document.getElementsByClassName("host-definition");
-  let ipNetworkSubnettingDiv = document.getElementById("ip-network-subnetting");
-  let ipSubnettingTableCaption = document.getElementById(
-    "ip-subnetting-table-caption"
+  let selectedIP = getIPNetworkInDecimal();
+  let binaryIPNetwork = selectedIP.map((decimalValue) =>
+    convertsToByte(decimalToBinary(decimalValue))
   );
+  console.log(binaryIPNetwork);
 
   // Showing IP Subnetting Div
-  ipNetworkSubnettingDiv.style.display = "flex";
+  IP_NETWORK_SUBNETTING_DIV.style.display = "flex";
 
   // Modifing Table's Caption with selected IP
-  ipSubnettingTableCaption.innerHTML = "Network IP: " + selectedIP;
-
-  console.log(`IP: ${selectedIP}`);
-  Array.from(hostDefinition).forEach((inputValue, index) => {
-    console.log(
-      `
-      Index: ${index} 
-      Value: ${inputValue.value} 
-      Needed Bits: ${calculateNecessaryBits(parseInt(inputValue.value))} 
-      Jumps: ${pow(9)}
-      `
-    );
-  });
+  IP_SUBNETTING_TABLE_CAPTION.innerHTML =
+    "Network IP: " + IP_NETWORK_INPUT.value;
 }
 
 /**
@@ -111,11 +110,8 @@ CALCULATE_SUBNETTING_BUTTON.addEventListener("click", calculateSubnetting);
 // Adding Event Listeners to Inputs
 IP_NETWORK_INPUT.addEventListener("keyup", () => {
   let ipNetwork = getIPNetworkInDecimal();
-  console.log(isBitInRange(ipNetwork));
-  console.log(isIPNetworkLengthCorrect(ipNetwork));
   let isValidIPNetwork =
     isBitInRange(ipNetwork) && isIPNetworkLengthCorrect(ipNetwork);
-  console.log(ipNetwork);
   if (!isValidIPNetwork) {
     IP_NETWORK_MESSAGE.innerHTML = "Bad IP Network";
   } else {
@@ -125,7 +121,6 @@ IP_NETWORK_INPUT.addEventListener("keyup", () => {
 
 Array.from(NUMBER_OF_HOST_INPUT).forEach((input) => {
   input.addEventListener("input", () => {
-    console.log(`Valor de host: ${input.value}`);
     let value = parseInt(input.value);
     if (value < 1) {
       input.value = 1;
