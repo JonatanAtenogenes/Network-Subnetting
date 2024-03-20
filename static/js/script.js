@@ -1,8 +1,19 @@
-import { pow, calculateNecessaryBits } from "../modules/utils.js";
 import {
+  pow,
+  calculateNecessaryBits,
+  binaryToIPAddress,
+  ipAddressToString,
+} from "../modules/utils.js";
+
+import {
+  binaryAddition,
+  binarySubtraction,
   convertsTo4Bytes,
   convertsToByte,
   decimalToBinary,
+  getPrefixLength,
+  getSubnetMask,
+  getWildcard,
 } from "../modules/binary_operations.js";
 
 // Definition for Constants
@@ -22,6 +33,7 @@ const IP_NETWORK_SUBNETTING_DIV = document.getElementById(
 const IP_SUBNETTING_TABLE_CAPTION = document.getElementById(
   "ip-subnetting-table-caption"
 );
+const IP_SUBNETTING_TABLE = document.getElementById("ip-subnetting-table");
 
 /**
  * Adds a host input field to a specified HTML element.
@@ -48,14 +60,104 @@ function calculateSubnetting() {
   let binaryIPNetwork = selectedIP.map((decimalValue) =>
     convertsToByte(decimalToBinary(decimalValue))
   );
-  console.log(binaryIPNetwork);
+
+  // Creation of the body for the table
+  let tbody = document.createElement("tbody");
 
   // Showing IP Subnetting Div
   IP_NETWORK_SUBNETTING_DIV.style.display = "flex";
 
   // Modifing Table's Caption with selected IP
   IP_SUBNETTING_TABLE_CAPTION.innerHTML =
-    "Network IP: " + IP_NETWORK_INPUT.value;
+    "IP Address: " + IP_NETWORK_INPUT.value;
+
+  // For every defined host
+  Array.from(NUMBER_OF_HOST_INPUT).forEach((input) => {
+    let row = document.createElement("tr");
+    let cellHost = document.createElement("td");
+    let cellBits = document.createElement("td");
+    let cellTotalHost = document.createElement("td");
+    let cellNetworkIP = document.createElement("td");
+    let cellInitialIP = document.createElement("td");
+    let cellFinalIP = document.createElement("td");
+    let cellBroadcastIP = document.createElement("td");
+    let cellPrefixLength = document.createElement("td");
+    let cellSubnetMask = document.createElement("td");
+    let cellWildcard = document.createElement("td");
+
+    // Calculate every necessary values
+    let value = parseInt(input.value);
+    let necessaryBits = calculateNecessaryBits(value);
+    let totalHost = pow(necessaryBits);
+    let networkIP = ipAddressToString(binaryToIPAddress(binaryIPNetwork));
+
+    // Define next Network IP
+    let nextNetworkIP = convertsTo4Bytes(
+      binaryAddition(
+        binaryIPNetwork,
+        convertsTo4Bytes(decimalToBinary(totalHost))
+      )
+    );
+
+    // Continue with table values
+    let initialIP = ipAddressToString(
+      binaryToIPAddress(
+        convertsTo4Bytes(
+          binaryAddition(binaryIPNetwork, convertsTo4Bytes(decimalToBinary(1)))
+        )
+      )
+    );
+    let finalIP = ipAddressToString(
+      binaryToIPAddress(
+        convertsTo4Bytes(
+          binarySubtraction(nextNetworkIP, convertsTo4Bytes(decimalToBinary(2)))
+        )
+      )
+    );
+    let broadcastIP = ipAddressToString(
+      binaryToIPAddress(
+        convertsTo4Bytes(
+          binarySubtraction(nextNetworkIP, convertsTo4Bytes(decimalToBinary(1)))
+        )
+      )
+    );
+    let prefixLength = getPrefixLength(necessaryBits);
+    let subnetMaskArray = getSubnetMask(necessaryBits);
+    let subnetMask = ipAddressToString(binaryToIPAddress(subnetMaskArray));
+    let wildcardArray = getWildcard(subnetMaskArray);
+    let wildcard = ipAddressToString(wildcardArray);
+
+    // Setting values for every row
+    cellHost.appendChild(document.createTextNode(`${value}`));
+    cellBits.appendChild(document.createTextNode(`${necessaryBits}`));
+    cellTotalHost.appendChild(document.createTextNode(`${totalHost}`));
+    cellNetworkIP.appendChild(document.createTextNode(`${networkIP}`));
+    cellInitialIP.appendChild(document.createTextNode(`${initialIP}`));
+    cellFinalIP.appendChild(document.createTextNode(`${finalIP}`));
+    cellBroadcastIP.appendChild(document.createTextNode(`${broadcastIP}`));
+    cellPrefixLength.appendChild(document.createTextNode(`/${prefixLength}`));
+    cellSubnetMask.appendChild(document.createTextNode(`${subnetMask}`));
+    cellWildcard.appendChild(document.createTextNode(`${wildcard}`));
+    row.append(
+      cellHost,
+      cellBits,
+      cellTotalHost,
+      cellNetworkIP,
+      cellInitialIP,
+      cellFinalIP,
+      cellBroadcastIP,
+      cellPrefixLength,
+      cellSubnetMask,
+      cellWildcard
+    );
+    tbody.appendChild(row);
+
+    // Setting binaryNetworkIP as nextNetworkIP
+    binaryIPNetwork = nextNetworkIP;
+  });
+
+  // Adding table body to table
+  IP_SUBNETTING_TABLE.appendChild(tbody);
 }
 
 /**
