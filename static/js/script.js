@@ -6,15 +6,22 @@ import {
 } from "../modules/utils.js";
 
 import {
+  decimalToBinary,
+  convertsToByte,
+  convertsTo4Bytes,
+} from "../modules/binary_operations.js";
+
+import {
   binaryAddition,
   binarySubtraction,
-  convertsTo4Bytes,
-  convertsToByte,
-  decimalToBinary,
-  getPrefixLength,
   getSubnetMask,
+  getPrefixLength,
   getWildcard,
-} from "../modules/binary_operations.js";
+  getIPNetworkInDecimal,
+  isBitInRange,
+  isIPNetworkLengthCorrect,
+  areHostDefinitionValid,
+} from "../modules/ip_address_operations.js";
 
 // Definition for Constants
 const IP_NETWORK_INPUT = document.getElementById("ip-network");
@@ -22,7 +29,6 @@ const NUMBER_OF_HOST_INPUT = document.getElementsByClassName(
   "host-definition-input"
 );
 const IP_NETWORK_MESSAGE = document.getElementById("ip-network-message");
-// const NOMBER_OF_HOST_MESSAGE = document.getElementById("ip-network-message");
 const ADDING_HOST_BUTTON = document.getElementById("adding-host-btn");
 const CALCULATE_SUBNETTING_BUTTON = document.getElementById(
   "calculate-subnetting-btn"
@@ -34,6 +40,11 @@ const IP_SUBNETTING_TABLE_CAPTION = document.getElementById(
   "ip-subnetting-table-caption"
 );
 const IP_SUBNETTING_TABLE = document.getElementById("ip-subnetting-table");
+const IP_SUBNETTING_TABLE_BODY = document.querySelector(
+  "#ip-subnetting-table tbody"
+);
+
+let isValidIPAddress = false;
 
 /**
  * Adds a host input field to a specified HTML element.
@@ -51,25 +62,34 @@ function addingHostInput() {
   hostInput.placeholder = "100";
   hostInput.min = "0";
 
-  let brInput = document.createElement("br");
-  hostDefinitionDiv.append(hostInput, brInput);
+  hostInput.addEventListener("change", () => {
+    let value = parseInt(hostInput.value);
+    if (value < 1 || isNaN(value)) {
+      hostInput.value = 1;
+    }
+  });
+
+  hostDefinitionDiv.appendChild(hostInput);
 }
 
+/**
+ * Calculates subnetting details based on the selected IP network and number of hosts.
+ */
 function calculateSubnetting() {
-  let selectedIP = getIPNetworkInDecimal();
+  let selectedIP = getIPNetworkInDecimal(IP_NETWORK_INPUT.value);
   let binaryIPNetwork = selectedIP.map((decimalValue) =>
     convertsToByte(decimalToBinary(decimalValue))
   );
 
-  // Creation of the body for the table
-  let tbody = document.createElement("tbody");
+  // Drops all tbody content of the table
+  IP_SUBNETTING_TABLE_BODY.innerHTML = "";
 
   // Showing IP Subnetting Div
   IP_NETWORK_SUBNETTING_DIV.style.display = "flex";
 
-  // Modifing Table's Caption with selected IP
+  // Modifying Table's Caption with selected IP
   IP_SUBNETTING_TABLE_CAPTION.innerHTML =
-    "IP Address: " + IP_NETWORK_INPUT.value;
+    "Direccion IP: " + IP_NETWORK_INPUT.value;
 
   // For every defined host
   Array.from(NUMBER_OF_HOST_INPUT).forEach((input) => {
@@ -85,59 +105,24 @@ function calculateSubnetting() {
     let cellSubnetMask = document.createElement("td");
     let cellWildcard = document.createElement("td");
 
-    // Calculate every necessary values
-    let value = parseInt(input.value);
-    let necessaryBits = calculateNecessaryBits(value);
-    let totalHost = pow(necessaryBits);
-    let networkIP = ipAddressToString(binaryToIPAddress(binaryIPNetwork));
-
-    // Define next Network IP
-    let nextNetworkIP = convertsTo4Bytes(
-      binaryAddition(
-        binaryIPNetwork,
-        convertsTo4Bytes(decimalToBinary(totalHost))
-      )
-    );
-
-    // Continue with table values
-    let initialIP = ipAddressToString(
-      binaryToIPAddress(
-        convertsTo4Bytes(
-          binaryAddition(binaryIPNetwork, convertsTo4Bytes(decimalToBinary(1)))
-        )
-      )
-    );
-    let finalIP = ipAddressToString(
-      binaryToIPAddress(
-        convertsTo4Bytes(
-          binarySubtraction(nextNetworkIP, convertsTo4Bytes(decimalToBinary(2)))
-        )
-      )
-    );
-    let broadcastIP = ipAddressToString(
-      binaryToIPAddress(
-        convertsTo4Bytes(
-          binarySubtraction(nextNetworkIP, convertsTo4Bytes(decimalToBinary(1)))
-        )
-      )
-    );
-    let prefixLength = getPrefixLength(necessaryBits);
-    let subnetMaskArray = getSubnetMask(necessaryBits);
-    let subnetMask = ipAddressToString(binaryToIPAddress(subnetMaskArray));
-    let wildcardArray = getWildcard(subnetMaskArray);
-    let wildcard = ipAddressToString(wildcardArray);
+    // Calculate every necessary value
+    let values = getTableValues(binaryIPNetwork, input);
 
     // Setting values for every row
-    cellHost.appendChild(document.createTextNode(`${value}`));
-    cellBits.appendChild(document.createTextNode(`${necessaryBits}`));
-    cellTotalHost.appendChild(document.createTextNode(`${totalHost}`));
-    cellNetworkIP.appendChild(document.createTextNode(`${networkIP}`));
-    cellInitialIP.appendChild(document.createTextNode(`${initialIP}`));
-    cellFinalIP.appendChild(document.createTextNode(`${finalIP}`));
-    cellBroadcastIP.appendChild(document.createTextNode(`${broadcastIP}`));
-    cellPrefixLength.appendChild(document.createTextNode(`/${prefixLength}`));
-    cellSubnetMask.appendChild(document.createTextNode(`${subnetMask}`));
-    cellWildcard.appendChild(document.createTextNode(`${wildcard}`));
+    cellHost.appendChild(document.createTextNode(`${input.value}`));
+    cellBits.appendChild(document.createTextNode(`${values.necessaryBits}`));
+    cellTotalHost.appendChild(document.createTextNode(`${values.totalHost}`));
+    cellNetworkIP.appendChild(document.createTextNode(`${values.networkIP}`));
+    cellInitialIP.appendChild(document.createTextNode(`${values.initialIP}`));
+    cellFinalIP.appendChild(document.createTextNode(`${values.finalIP}`));
+    cellBroadcastIP.appendChild(
+      document.createTextNode(`${values.broadcastIP}`)
+    );
+    cellPrefixLength.appendChild(
+      document.createTextNode(`/${values.prefixLength}`)
+    );
+    cellSubnetMask.appendChild(document.createTextNode(`${values.subnetMask}`));
+    cellWildcard.appendChild(document.createTextNode(`${values.wildcard}`));
     row.append(
       cellHost,
       cellBits,
@@ -150,59 +135,78 @@ function calculateSubnetting() {
       cellSubnetMask,
       cellWildcard
     );
-    tbody.appendChild(row);
+    IP_SUBNETTING_TABLE_BODY.appendChild(row);
 
     // Setting binaryNetworkIP as nextNetworkIP
-    binaryIPNetwork = nextNetworkIP;
+    binaryIPNetwork = values.nextNetworkIP;
   });
 
   // Adding table body to table
-  IP_SUBNETTING_TABLE.appendChild(tbody);
+  IP_SUBNETTING_TABLE.appendChild(IP_SUBNETTING_TABLE_BODY);
 }
 
 /**
- * Retrieves the IP network in decimal format from the specified input field.
+ * Retrieves values for subnetting table based on the provided binary IP network and input value.
  *
- * @returns {number[]} An array representing the IP network in decimal format.
+ * @param {number[][]} binaryIPNetwork - An array representing the binary IP network.
+ * @param {HTMLInputElement} input - The input element containing the number of hosts.
+ * @returns {object} An object containing subnetting table values.
+ *
  **/
-function getIPNetworkInDecimal() {
-  let ipNetworkValue = IP_NETWORK_INPUT.value;
-  let ipNetworkArray = ipNetworkValue.split(".");
-  return ipNetworkArray.map((bit) => parseInt(bit));
-}
+function getTableValues(binaryIPNetwork, input) {
+  let value = parseInt(input.value);
+  let necessaryBits = calculateNecessaryBits(value);
+  let totalHost = pow(necessaryBits);
+  let networkIP = ipAddressToString(binaryToIPAddress(binaryIPNetwork));
 
-/**
- * Checks if the length of the IP network is correct (should be 4 octets).
- *
- * @param {number[]} ipNetwork - An array representing the IP network in decimal format.
- * @returns {boolean} True if the length is correct, false otherwise.
- **/
-function isIPNetworkLengthCorrect(ipNetwork) {
-  return ipNetwork.length === 4;
-}
-
-/**
- * Checks if each bit of the IP network is within the valid range (0-255).
- *
- * @param {number[]} ipNetwork - An array representing the IP network in decimal format.
- * @returns {boolean} True if all bits are within the valid range, false otherwise.
- **/
-function isBitInRange(ipNetwork) {
-  return ipNetwork.every((bit) => bit < 256 && bit > -1);
-}
-
-/**
- * Checks if all host definition inputs are valid.
- *
- * @returns {boolean} True if all inputs are valid, false otherwise.
- **/
-function areHostDefinitionValid() {
-  return Array.from(NUMBER_OF_HOST_INPUT).every(
-    (input) =>
-      !isNaN(parseInt(input.value)) &&
-      parseInt(input.value) >= 1 &&
-      input.value !== ""
+  // Define next Network IP
+  let nextNetworkIP = convertsTo4Bytes(
+    binaryAddition(
+      binaryIPNetwork,
+      convertsTo4Bytes(decimalToBinary(totalHost))
+    )
   );
+
+  // Continue with table values
+  let initialIP = ipAddressToString(
+    binaryToIPAddress(
+      convertsTo4Bytes(
+        binaryAddition(binaryIPNetwork, convertsTo4Bytes(decimalToBinary(1)))
+      )
+    )
+  );
+  let finalIP = ipAddressToString(
+    binaryToIPAddress(
+      convertsTo4Bytes(
+        binarySubtraction(nextNetworkIP, convertsTo4Bytes(decimalToBinary(2)))
+      )
+    )
+  );
+  let broadcastIP = ipAddressToString(
+    binaryToIPAddress(
+      convertsTo4Bytes(
+        binarySubtraction(nextNetworkIP, convertsTo4Bytes(decimalToBinary(1)))
+      )
+    )
+  );
+  let prefixLength = getPrefixLength(necessaryBits);
+  let subnetMaskArray = getSubnetMask(necessaryBits);
+  let subnetMask = ipAddressToString(binaryToIPAddress(subnetMaskArray));
+  let wildcardArray = getWildcard(subnetMaskArray);
+  let wildcard = ipAddressToString(wildcardArray);
+
+  return {
+    necessaryBits,
+    totalHost,
+    networkIP,
+    initialIP,
+    finalIP,
+    broadcastIP,
+    prefixLength,
+    subnetMask,
+    wildcard,
+    nextNetworkIP,
+  };
 }
 
 // Adding Event Listeners to Buttons
@@ -210,28 +214,28 @@ ADDING_HOST_BUTTON.addEventListener("click", addingHostInput);
 CALCULATE_SUBNETTING_BUTTON.addEventListener("click", calculateSubnetting);
 
 // Adding Event Listeners to Inputs
-IP_NETWORK_INPUT.addEventListener("keyup", () => {
-  let ipNetwork = getIPNetworkInDecimal();
+document.getElementById("number-of-host").addEventListener("change", () => {
+  let value = parseInt(document.getElementById("number-of-host").value);
+  if (value < 1 || isNaN(value)) {
+    document.getElementById("number-of-host").value = 1;
+  }
+});
+
+IP_NETWORK_INPUT.addEventListener("input", () => {
+  let ipNetwork = getIPNetworkInDecimal(IP_NETWORK_INPUT.value);
   let isValidIPNetwork =
     isBitInRange(ipNetwork) && isIPNetworkLengthCorrect(ipNetwork);
   if (!isValidIPNetwork) {
-    IP_NETWORK_MESSAGE.innerHTML = "Bad IP Network";
+    isValidIPAddress = false;
+    IP_NETWORK_MESSAGE.innerHTML = "Direccion IP Invalida";
   } else {
+    isValidIPAddress = true;
     IP_NETWORK_MESSAGE.innerHTML = "";
   }
 });
 
-Array.from(NUMBER_OF_HOST_INPUT).forEach((input) => {
-  input.addEventListener("input", () => {
-    let value = parseInt(input.value);
-    if (value < 1) {
-      input.value = 1;
-    }
-  });
-});
-
 document.body.addEventListener("input", () => {
-  if (areHostDefinitionValid()) {
+  if (areHostDefinitionValid(NUMBER_OF_HOST_INPUT) && isValidIPAddress) {
     CALCULATE_SUBNETTING_BUTTON.disabled = false;
   } else {
     CALCULATE_SUBNETTING_BUTTON.disabled = true;

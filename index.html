@@ -5,7 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Subneteo de Redes IPv4</title>
     <link rel="stylesheet" href="./static/css/style.css" />
-    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
+    <link
+      rel="shortcut icon"
+      href="./static/img/favicon.ico"
+      type="image/x-icon"
+    />
   </head>
   <body>
     <section id="header-section">
@@ -16,15 +20,13 @@
 
     <section id="ip-definition-section">
       <div id="ip-definition">
-        <label for="ip-network">Red IP</label>
-        <br />
+        <label for="ip-network">Direccion IP</label>
         <input
           type="text"
           name="ip-network"
           id="ip-network"
           placeholder="192.168.0.0"
         />
-        <br />
         <p id="ip-network-message"></p>
       </div>
     </section>
@@ -42,14 +44,17 @@
           placeholder="100"
           min="0"
         />
-
-        <br />
       </div>
     </section>
 
-    <button id="adding-host-btn">Agregar Hosts</button>
-
-    <button id="calculate-subnetting-btn" disabled>Realizar Subneteo</button>
+    <section id="actions-section">
+      <div id="actions">
+        <button id="adding-host-btn">Agregar Hosts</button>
+        <button id="calculate-subnetting-btn" disabled>
+          Realizar Subneteo
+        </button>
+      </div>
+    </section>
 
     <section id="ip-network-subnetting-section">
       <div id="ip-network-subnetting">
@@ -62,25 +67,42 @@
               <th scope="col">Host</th>
               <th scope="col">Bits</th>
               <th scope="col">Total Host</th>
-              <th scope="col">Network IP</th>
-              <th scope="col">Initial IP</th>
-              <th scope="col">Final IP</th>
-              <th scope="col">Broadcast IP</th>
-              <th scope="col">Prefix Length</th>
-              <th scope="col">Subnet Mask</th>
+              <th scope="col">IP de Red</th>
+              <th scope="col">IP Inicial</th>
+              <th scope="col">IP Final</th>
+              <th scope="col">IP Broadcast</th>
+              <th scope="col">Longitud Prefijo</th>
+              <th scope="col">Mascara Subred</th>
               <th scope="col">Wildcard</th>
             </tr>
           </thead>
+          <tbody></tbody>
         </table>
       </div>
     </section>
 
     <section id="footer-section">
-      <a
-        href="https://www.flaticon.es/iconos-gratis/informatica"
-        title="informática iconos"
-        >Informática iconos creados por catkuro - Flaticon</a
-      >
+      <div id="footer">
+        <p>Desarrollado por Jonatan Atenogenes</p>
+        <div id="footer-links">
+          <a
+            href="https://github.com/JonatanAtenogenes/Network-Subnetting"
+            title="Repositorio del proyecto en Github"
+            target="_blank"
+            ><img
+              src="./static/img/github-mark-white.svg"
+              alt="Github Project Repository"
+          /></a>
+          <a
+            href="https://www.flaticon.es/iconos-gratis/informatica"
+            title="Informática iconos creados por catkuro - Flaticon"
+            target="_blank"
+            ><img
+              src="./static/img/favicon.ico"
+              alt="Informática iconos creados por catkuro - Flaticon"
+          /></a>
+        </div>
+      </div>
     </section>
 
     <script src="./static/js/script.js" type="module"></script>

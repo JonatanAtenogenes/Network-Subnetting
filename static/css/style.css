@@ -1,25 +1,237 @@
-#header {
+/* General */
+
+html {
+    height: 100%;
+}
+
+body {
+    background-color: #DDE6ED;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+button {
     background-color: #222831;
+    border: none;
+    font-size: 1.8rem;
+    padding: 12px 20px;
+    color: #EEEEEE;
+    margin: 20px 50px;
+}
+
+button:disabled {
+    background-color: #31363F;
+}
+
+a {
+    color: #DDE6ED;
+}
+
+input {
+    border-radius: 10px;
+    border: 2px solid #222831;
+    font-size: 2.5rem;
+    color: #31363F;
+}
+
+input[type="number"] {
+    font-size: 1.8rem;
+}
+
+table {
+    width: 80%;
+    border-collapse: collapse;
+    font-size: 1.5rem;
+}
+
+table thead tr {
+    text-align: left;
+    background-color: #27374D;
+    color: #FFFFFF;
+    font-weight: bold;
+}
+
+table th, table td {
+    padding: 10px 8px;
+}
+
+table tbody tr {
+    border-bottom: 1px solid #526D82;
+}
+
+table tbody tr:nth-child(even) {
+    background-color: #9DB2BF;
+}
+
+table tbody tr:nth-child(odd) {
+    background-color: #DDE6ED;
+}
+
+table tbody tr:last-of-type {
+    border-bottom: 2.5px solid #526D82;
+}
+
+caption {
+    font-size: 2rem;
+    font-style: italic;
+    margin-bottom: 15px;
+}
+
+/* General */
+
+/* Header Secton */
+#header-section {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+#header {
+    display: flex;
+    margin: 0px 0px;
+    justify-content: center;
+    background-color: #222831;
+    flex-wrap: wrap;
 }
 
 #header > h1 {
-    font-size: 3rem;
-    color: #EEEEEE;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+    font-size: 8rem;
+    padding: 16px;
+    color: #EEEEEE; 
 }
+/* Header Secton */
 
+/* IP Definition Secton */
 #ip-definition-section {
-    background-color: #76ABAE;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
 }
 
-#host-definition-section {
-    background-color: #76ABAE;
+#ip-definition {
+    background-color: #526D82;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-top: 25px;
+    align-items: center;
+}
+
+#ip-definition > label {
+    color: #222831;
+    font-size: 3.5rem;
+    margin: 0px 25px;
+}
+
+#ip-network-message {
+    color: #31363F;
+    font-style: italic;
+    font-size: 2rem;
+    margin: 0px 25px;
+}
+/* IP Definition Secton */
+
+/* Host Definition Section */
+
+#host-definition {
+    background-color: #526D82;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 25px 0px;
+}
+
+#host-definition label {
+    color: #222831;
+    font-size: 2.5rem;
+    margin: 0px 25px;
+}
+
+#host-definition input {
+    margin: 0px 25px;
+}
+
+/* Host Definition Section */
+
+/* Actions Section */
+
+#actions {
+    background-color: #526D82;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 25px;
+}
+
+/* Actions Section */
+
+/* IP Network Subnetting Section */
+
+#ip-network-subnetting-section {
+    margin-top: 10px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
 }
 
 #ip-network-subnetting {
     display: none;
 }
 
-#ip-network-message {
-    color: red;
-    font-style: italic;
+#ip-network-subnetting {
+    justify-content: center;
+    padding: 25px 0px;
+    
 }
+
+/* IP Network Subnetting Section */
+
+/* Footer Section */
+
+#footer-section {
+    margin-top: auto;
+    margin-bottom: 10px;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+#footer {
+    background-color: #31363F;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#footer p {
+    font-size: 1.8rem;
+    color: #FFFFFF;
+}
+
+#footer-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+#footer-links img {
+    height: 5rem;
+    margin: 0px 2rem;
+}
+
+/* Footer Section */
+
+/* Responsive Styles */
+/* Responsive Styles */
+/* Responsive Styles */
