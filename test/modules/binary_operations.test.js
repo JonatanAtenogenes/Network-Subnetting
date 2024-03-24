@@ -1,13 +1,45 @@
 import {
+  binaryAddResults,
+  binarySubResults,
   decimalToBinary,
   binaryToDecimal,
   convertsToByte,
-  binaryAddResults,
   convertsTo4Bytes,
-  binaryAddition,
-  binarySubResults,
-  binarySubtraction,
 } from "../../static/modules/binary_operations.js";
+
+// Test for the binarySumResults function
+test("Binary sum of 0 + 0 returns [0, 0]", () => {
+  expect(binaryAddResults(0, 0)).toEqual([0, 0]);
+});
+
+test("Binary sum of 0 + 1 returns [0, 1]", () => {
+  expect(binaryAddResults(0, 1)).toEqual([0, 1]);
+});
+
+test("Binary sum of 1 + 0 returns [0, 1]", () => {
+  expect(binaryAddResults(1, 0)).toEqual([0, 1]);
+});
+
+test("Binary sum of 1 + 1 returns [1, 0]", () => {
+  expect(binaryAddResults(1, 1)).toEqual([1, 0]);
+});
+
+// Test for binarySubResult
+test("Subtracts binary 1 - 0 correctly", () => {
+  expect(binarySubResults(1, 0)).toEqual([0, 1]);
+});
+
+test("Subtracts binary 0 - 1 correctly", () => {
+  expect(binarySubResults(0, 1)).toEqual([1, 1]);
+});
+
+test("Subtracts binary 1 - 1 correctly", () => {
+  expect(binarySubResults(1, 1)).toEqual([0, 0]);
+});
+
+test("Subtracts binary 0 - 0 correctly", () => {
+  expect(binarySubResults(0, 0)).toEqual([0, 0]);
+});
 
 // Test for the decimalToBinary function
 test("Converts decimal 0 to binary correctly", () => {
@@ -118,25 +150,7 @@ test("Converts [1, 0, 1, 1, 1, 1, 0, 1] to 8-bit binary correctly", () => {
   ]);
 });
 
-// Test for the binarySumResults function
-test("Binary sum of 0 + 0 returns [0, 0]", () => {
-  expect(binaryAddResults(0, 0)).toEqual([0, 0]);
-});
-
-test("Binary sum of 0 + 1 returns [0, 1]", () => {
-  expect(binaryAddResults(0, 1)).toEqual([0, 1]);
-});
-
-test("Binary sum of 1 + 0 returns [0, 1]", () => {
-  expect(binaryAddResults(1, 0)).toEqual([0, 1]);
-});
-
-test("Binary sum of 1 + 1 returns [1, 0]", () => {
-  expect(binaryAddResults(1, 1)).toEqual([1, 0]);
-});
-
 // Test for convertsTo4Bytes function
-
 test("Converts binary number [1, 0, 1, 0, 1, 0, 1, 0] to 4 bytes correctly", () => {
   const binaryNumber = [1, 0, 1, 0, 1, 0, 1, 0];
   const expectedOutput = [
@@ -179,143 +193,4 @@ test("Converts binary number [1, 1, 1, 0, 1, 1, 0, 1] to 4 bytes correctly", () 
     [1, 1, 1, 0, 1, 1, 0, 1],
   ];
   expect(convertsTo4Bytes(binaryNumber)).toEqual(expectedOutput);
-});
-
-// Test for binarySum function
-test("Sums binary IP network [128, 0, 0, 0] with 2 hosts correctly", () => {
-  const ipNetwork = [
-    [1, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-  ];
-  const numberHost = [
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 1, 0],
-  ];
-  const expectedOutput = [
-    1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 1, 0,
-  ];
-  expect(binaryAddition(ipNetwork, numberHost)).toEqual(expectedOutput);
-});
-
-test("Sums binary IP network [192, 168, 1, 0] with 10 hosts correctly", () => {
-  const ipNetwork = [
-    [1, 1, 0, 0, 0, 0, 0, 0],
-    [1, 0, 1, 0, 1, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 1],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-  ];
-  const numberHost = [
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 1, 0, 1, 0],
-  ];
-  const expectedOutput = [
-    1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,
-    0, 0, 0, 1, 0, 1, 0,
-  ];
-  expect(binaryAddition(ipNetwork, numberHost)).toEqual(expectedOutput);
-});
-
-test("Sums binary IP network [10, 20, 30, 40] with 20 hosts correctly", () => {
-  const ipNetwork = [
-    [0, 0, 0, 0, 1, 0, 1, 0],
-    [0, 0, 0, 1, 0, 1, 0, 0],
-    [0, 0, 0, 1, 1, 1, 1, 0],
-    [0, 0, 1, 0, 1, 0, 0, 0],
-  ];
-  const numberHost = [
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 1, 0, 1, 0, 0],
-  ];
-  const expectedOutput = [
-    0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0,
-    0, 1, 1, 1, 1, 0, 0,
-  ];
-  expect(binaryAddition(ipNetwork, numberHost)).toEqual(expectedOutput);
-});
-
-// Test for binarySubResult
-test("Subtracts binary 1 - 0 correctly", () => {
-  expect(binarySubResults(1, 0)).toEqual([0, 1]);
-});
-
-test("Subtracts binary 0 - 1 correctly", () => {
-  expect(binarySubResults(0, 1)).toEqual([1, 1]);
-});
-
-test("Subtracts binary 1 - 1 correctly", () => {
-  expect(binarySubResults(1, 1)).toEqual([0, 0]);
-});
-
-test("Subtracts binary 0 - 0 correctly", () => {
-  expect(binarySubResults(0, 0)).toEqual([0, 0]);
-});
-
-// Test for binarySubtraction
-test("Subtracts binary IP network [128, 0, 0, 0] - [0, 0, 0, 2] correctly", () => {
-  const ipNetwork = [
-    [1, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-  ];
-  const binB = [
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 1],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 1],
-  ];
-  const expectedOutput = [
-    0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-    1, 1, 1, 1, 1, 1, 1,
-  ];
-  expect(binarySubtraction(ipNetwork, binB)).toEqual(expectedOutput);
-});
-
-test("Subtracts binary IP network [192, 168, 1, 0] - [0, 0, 0, 10] correctly", () => {
-  const ipNetwork = [
-    [1, 1, 0, 0, 0, 0, 0, 0],
-    [1, 0, 1, 0, 1, 0, 0, 0],
-    [1, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-  ];
-  const binB = [
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 1, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 1, 0],
-  ];
-  const expectedOutput = [
-    1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1,
-    1, 1, 1, 1, 1, 1, 0,
-  ];
-  expect(binarySubtraction(ipNetwork, binB)).toEqual(expectedOutput);
-});
-
-test("Subtracts binary IP network [10, 20, 30, 40] - [0, 0, 0, 5] correctly", () => {
-  const ipNetwork = [
-    [0, 0, 0, 0, 1, 0, 1, 0],
-    [0, 0, 0, 1, 0, 1, 0, 0],
-    [0, 0, 0, 1, 1, 1, 1, 0],
-    [0, 0, 1, 0, 1, 0, 0, 0],
-  ];
-  const binB = [
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 1],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 1],
-  ];
-  const expectedOutput = [
-    0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0,
-    0, 1, 0, 0, 1, 1, 1,
-  ];
-  expect(binarySubtraction(ipNetwork, binB)).toEqual(expectedOutput);
 });

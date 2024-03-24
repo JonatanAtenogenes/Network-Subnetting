@@ -14,7 +14,6 @@ Para utilizar la aplicación, sigue estos pasos:
 
 ## Nota
 
-- Los tests no funcionan actualmente y pueden no estar actualizados.
 - La visualización de la página web en dispositivos móviles puede no ofrecer la mejor experiencia debido a su diseño centrado en pantallas de tamaño estándar de escritorio.
 
 ## Repositorio

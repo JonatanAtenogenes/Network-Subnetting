@@ -2,7 +2,6 @@ export {
   binaryAddition,
   binarySubtraction,
   getSubnetMask,
-  formatByteFromSubnetMask,
   getPrefixLength,
   getWildcard,
   getIPNetworkInDecimal,
@@ -11,19 +10,17 @@ export {
   areHostDefinitionValid,
 };
 
-import { pow, allBitsAreZero } from "./utils.js";
-
 import {
-  decimalToBinary,
   binaryToDecimal,
-  invertBits,
   binaryAddResults,
   binarySubResults,
   convertsToByte,
   convertsTo4Bytes,
+  decimalToBinary,
 } from "./binary_operations.js";
 
 const MAX_BYTE_DECIMAL = 255;
+const MAX_PREFIX_LENGTH = 32;
 
 /**
  * Performs binary addition between an IP address and a number of hosts.
@@ -78,44 +75,22 @@ function binarySubtraction(ipAddress, binB) {
 }
 
 /**
- * Retrieves the subnet mask from the necessary bits.
+ * Retrieves the subnet mask based on the provided prefix length.
  *
- * @param {number} bits - The number of necessary bits.
+ * @param {number} prefixLength - The prefix length.
  * @returns {number[][]} An array representing the subnet mask.
- **/
-function getSubnetMask(bits) {
-  let tmp = convertsTo4Bytes(decimalToBinary(pow(bits)));
-  let subnetMask = [];
-  tmp.forEach((byte) => {
-    subnetMask.push(formatByteFromSubnetMask(byte));
-  });
-  return subnetMask;
-}
-
-/**
- * Formats a byte from the subnet mask.
  *
- * @param {number[]} byte - An array representing a byte of the subnet mask.
- * @returns {number[]} An array representing the formatted byte.
  **/
-function formatByteFromSubnetMask(byte) {
-  if (allBitsAreZero(byte)) return convertsToByte(decimalToBinary(255));
-  else {
-    let tmp = [];
-    let counter = 0;
-    let index = byte.indexOf(1);
-    while (counter < index) {
-      tmp.push(invertBits(byte[counter]));
-      counter++;
-    }
-    tmp.push(byte[counter]);
-    counter++;
-    while (counter < 8) {
+function getSubnetMask(prefixLength) {
+  let tmp = [];
+  for (let index = 0; index < MAX_PREFIX_LENGTH; index++) {
+    if (index < prefixLength) {
+      tmp.push(1);
+    } else {
       tmp.push(0);
-      counter++;
     }
-    return tmp;
   }
+  return convertsTo4Bytes(tmp);
 }
 
 /**
@@ -125,7 +100,7 @@ function formatByteFromSubnetMask(byte) {
  * @returns {number} The prefix length.
  **/
 function getPrefixLength(necessaryBits) {
-  return 32 - necessaryBits;
+  return MAX_PREFIX_LENGTH - necessaryBits;
 }
 
 /**
@@ -138,7 +113,7 @@ function getWildcard(subnetMask) {
   return subnetMask.map((byte) => {
     let decimalNumber = binaryToDecimal(byte);
     let wildcardValue = MAX_BYTE_DECIMAL - decimalNumber;
-    return convertsToByte(wildcardValue);
+    return convertsToByte(decimalToBinary(wildcardValue));
   });
 }
 

@@ -190,10 +190,10 @@ function getTableValues(binaryIPNetwork, input) {
     )
   );
   let prefixLength = getPrefixLength(necessaryBits);
-  let subnetMaskArray = getSubnetMask(necessaryBits);
+  let subnetMaskArray = getSubnetMask(prefixLength);
   let subnetMask = ipAddressToString(binaryToIPAddress(subnetMaskArray));
   let wildcardArray = getWildcard(subnetMaskArray);
-  let wildcard = ipAddressToString(wildcardArray);
+  let wildcard = ipAddressToString(binaryToIPAddress(wildcardArray));
 
   return {
     necessaryBits,

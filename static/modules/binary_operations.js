@@ -5,8 +5,8 @@ export {
   binaryAddResults,
   convertsTo4Bytes,
   binarySubResults,
-  invertBits,
 };
+
 import { pow } from "./utils.js";
 
 /**
@@ -114,15 +114,4 @@ function convertsTo4Bytes(binaryNumber) {
   }
 
   return formattedBinaryNumber;
-}
-
-/**
- * Inverts the bits of a binary number.
- *
- * @param {number} binaryNumber - The binary number.
- * @returns {number} The inverted binary number.
- **/
-function invertBits(binaryNumber) {
-  if (binaryNumber === 0) return 1;
-  else return 0;
 }
