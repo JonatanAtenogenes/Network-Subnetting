@@ -29,6 +29,7 @@ const NUMBER_OF_HOST_INPUT = document.getElementsByClassName(
   "host-definition-input"
 );
 const IP_NETWORK_MESSAGE = document.getElementById("ip-network-message");
+const HOST_DEFINITION_DIV = document.getElementById("host-definition");
 const ADDING_HOST_BUTTON = document.getElementById("adding-host-btn");
 const CALCULATE_SUBNETTING_BUTTON = document.getElementById(
   "calculate-subnetting-btn"
@@ -50,13 +51,16 @@ let isValidIPAddress = false;
  * Adds a host input field to a specified HTML element.
  **/
 function addingHostInput() {
-  let hostDefinitionDiv = document.getElementById("host-definition");
+  // Create a div container for the host input and delete button
+  let hostContainer = document.createElement("div");
+  hostContainer.classList.add("host-container");
+
   let hostInput = document.createElement("input");
 
   // Host Input Configuration
   hostInput.type = "number";
   hostInput.name = "no-host";
-  hostInput.id = "no-host";
+  //hostInput.id = "no-host";
   hostInput.className = "host-definition-input";
   hostInput.value = "100";
   hostInput.placeholder = "100";
@@ -69,7 +73,20 @@ function addingHostInput() {
     }
   });
 
-  hostDefinitionDiv.appendChild(hostInput);
+  // Create a delete button
+  let deleteButton = document.createElement("button");
+  deleteButton.textContent = "Eliminar";
+  deleteButton.classList.add("delete-host-button");
+  deleteButton.addEventListener("click", () => {
+    hostContainer.remove(); // Remove the container when the button is clicked
+  });
+
+  // Append the host input and delete button to the container
+  hostContainer.appendChild(hostInput);
+  hostContainer.appendChild(deleteButton);
+
+  // Append the container to the host definition div
+  HOST_DEFINITION_DIV.appendChild(hostContainer);
 }
 
 /**
@@ -89,21 +106,31 @@ function calculateSubnetting() {
 
   // Modifying Table's Caption with selected IP
   IP_SUBNETTING_TABLE_CAPTION.innerHTML =
-    "Direccion IP: " + IP_NETWORK_INPUT.value;
+    "Direccion IP: " + ipAddressToString(binaryToIPAddress(binaryIPNetwork));
 
   // For every defined host
   Array.from(NUMBER_OF_HOST_INPUT).forEach((input) => {
     let row = document.createElement("tr");
     let cellHost = document.createElement("td");
+    cellHost.setAttribute("data-cell", "Host");
     let cellBits = document.createElement("td");
+    cellBits.setAttribute("data-cell", "Bits");
     let cellTotalHost = document.createElement("td");
+    cellTotalHost.setAttribute("data-cell", "Total Host");
     let cellNetworkIP = document.createElement("td");
+    cellNetworkIP.setAttribute("data-cell", "IP de Red");
     let cellInitialIP = document.createElement("td");
+    cellInitialIP.setAttribute("data-cell", "IP Inicial");
     let cellFinalIP = document.createElement("td");
+    cellFinalIP.setAttribute("data-cell", "IP Final");
     let cellBroadcastIP = document.createElement("td");
+    cellBroadcastIP.setAttribute("data-cell", "IP Broadcast");
     let cellPrefixLength = document.createElement("td");
+    cellPrefixLength.setAttribute("data-cell", "Longitud Prefijo");
     let cellSubnetMask = document.createElement("td");
+    cellSubnetMask.setAttribute("data-cell", "Mascara Subred");
     let cellWildcard = document.createElement("td");
+    cellWildcard.setAttribute("data-cell", "Wildcard");
 
     // Calculate every necessary value
     let values = getTableValues(binaryIPNetwork, input);

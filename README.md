@@ -12,10 +12,6 @@ Para utilizar la aplicación, sigue estos pasos:
 4. Una vez que hayas ingresado todas las direcciones IP y especificado el número de hosts, haz clic en el botón "Realizar Subneteo" para calcular los detalles de subneteo.
 5. Los detalles de subneteo se mostrarán en la tabla que se genera a continuación, que incluye información como el número de host, los bits necesarios, la dirección de red, la dirección inicial, la dirección final, la dirección de broadcast, la longitud del prefijo de subred, la máscara de subred y el comodín.
 
-## Nota
-
-- La visualización de la página web en dispositivos móviles puede no ofrecer la mejor experiencia debido a su diseño centrado en pantallas de tamaño estándar de escritorio.
-
 ## Repositorio
 
 El código fuente de esta aplicación está disponible en [Github](https://github.com/JonatanAtenogenes/Network-Subnetting).
