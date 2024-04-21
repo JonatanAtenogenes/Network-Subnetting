@@ -1,17 +1,19 @@
 {
-    "type": "module",
-    "scripts": {
-        "start": "node ../Network_Subnetting/static/js/script.js",
-        "network_subnetting_test": "jest ../Network-Subnetting/test/modules/binary_operations.test.js ../Network-Subnetting/test/modules/utils.test.js ../Network-Subnetting/test/modules/ip_address_operations.test.js"
-    },
-    "jest": {
-        "setupFiles": ["../Network-Subnetting/jest.setup.js"],
-        "testEnvironment": "node"
-    },
-    "dependencies": {
-        "@babel/core": "^7.24.0",
-        "@babel/preset-env": "^7.24.0",
-        "@babel/register": "^7.23.7",
-        "jest": "^29.7.0"
-    }
+  "type": "module",
+  "scripts": {
+    "start": "node ../Network_Subnetting/static/js/script.js",
+    "test": "jest ../Network-Subnetting/test/modules/binary_operations.test.js ../Network-Subnetting/test/modules/utils.test.js ../Network-Subnetting/test/modules/ip_address_operations.test.js"
+  },
+  "jest": {
+    "setupFiles": [
+      "../Network-Subnetting/jest.setup.js"
+    ],
+    "testEnvironment": "node"
+  },
+  "dependencies": {
+    "@babel/core": "^7.24.0",
+    "@babel/preset-env": "^7.24.0",
+    "@babel/register": "^7.23.7",
+    "jest": "^29.7.0"
+  }
 }

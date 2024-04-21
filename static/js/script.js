@@ -24,47 +24,45 @@ import {
 } from "../modules/ip_address_operations.js";
 
 // Definition for Constants
-const IP_NETWORK_INPUT = document.getElementById("ip-network");
-const NUMBER_OF_HOST_INPUT = document.getElementsByClassName(
-  "host-definition-input"
-);
-const IP_NETWORK_MESSAGE = document.getElementById("ip-network-message");
-const HOST_DEFINITION_DIV = document.getElementById("host-definition");
-const ADDING_HOST_BUTTON = document.getElementById("adding-host-btn");
-const CALCULATE_SUBNETTING_BUTTON = document.getElementById(
-  "calculate-subnetting-btn"
-);
-const IP_NETWORK_SUBNETTING_DIV = document.getElementById(
-  "ip-network-subnetting"
-);
-const IP_SUBNETTING_TABLE_CAPTION = document.getElementById(
-  "ip-subnetting-table-caption"
-);
-const IP_SUBNETTING_TABLE = document.getElementById("ip-subnetting-table");
-const IP_SUBNETTING_TABLE_BODY = document.querySelector(
-  "#ip-subnetting-table tbody"
-);
+const ipNetworkInput = document.getElementById("ip-network");
+const numberOfHost = document.getElementsByClassName("number-of-host");
+const errorMessage = document.getElementById("error-message");
+const addingHostButton = document.getElementById("adding-host");
+const calcSubnetting = document.getElementById("calculate-subnetting");
+const ipNetworkSubnettingDiv = document.getElementById("ip-network-subnetting");
+const tableCaption = document.getElementById("ip-subnetting-caption");
+const table = document.getElementById("ip-subnetting");
+const tableBody = document.getElementById("table-body");
+const subnetMaskSelector = document.getElementById("subnet-mask-selector");
+const hostContainer = document.getElementById("host-container");
 
 let isValidIPAddress = false;
+
+// Create the values for the subnet mask selector
+for (let index = 0; index < 32; index++) {
+  const option = document.createElement("option");
+  option.value = index + 1;
+  option.text = `/${index + 1}`;
+  subnetMaskSelector.appendChild(option);
+}
 
 /**
  * Adds a host input field to a specified HTML element.
  **/
 function addingHostInput() {
   // Create a div container for the host input and delete button
-  let hostContainer = document.createElement("div");
-  hostContainer.classList.add("host-container");
-
-  let hostInput = document.createElement("input");
+  const innerHostContainer = document.createElement("div");
+  innerHostContainer.classList.add("inner-host-container");
+  const hostInput = document.createElement("input");
 
   // Host Input Configuration
   hostInput.type = "number";
-  hostInput.name = "no-host";
-  //hostInput.id = "no-host";
-  hostInput.className = "host-definition-input";
+  hostInput.name = "number-of-host";
+  hostInput.id = "number-of-host";
+  hostInput.classList.add("inputs", "number-of-host");
   hostInput.value = "100";
   hostInput.placeholder = "100";
-  hostInput.min = "0";
+  hostInput.min = "1";
 
   hostInput.addEventListener("change", () => {
     let value = parseInt(hostInput.value);
@@ -74,42 +72,43 @@ function addingHostInput() {
   });
 
   // Create a delete button
-  let deleteButton = document.createElement("button");
+  const deleteButton = document.createElement("button");
   deleteButton.textContent = "Eliminar";
-  deleteButton.classList.add("delete-host-button");
-  deleteButton.addEventListener("click", () => {
-    hostContainer.remove(); // Remove the container when the button is clicked
-  });
+  deleteButton.classList.add("delete-host", "actions");
+  deleteButton.addEventListener("click", () => innerHostContainer.remove());
 
   // Append the host input and delete button to the container
-  hostContainer.appendChild(hostInput);
-  hostContainer.appendChild(deleteButton);
+  innerHostContainer.appendChild(hostInput);
+  innerHostContainer.appendChild(deleteButton);
 
   // Append the container to the host definition div
-  HOST_DEFINITION_DIV.appendChild(hostContainer);
+  hostContainer.appendChild(innerHostContainer);
 }
 
 /**
  * Calculates subnetting details based on the selected IP network and number of hosts.
  */
 function calculateSubnetting() {
-  let selectedIP = getIPNetworkInDecimal(IP_NETWORK_INPUT.value);
+  const subnetMaskValue = parseInt(subnetMaskSelector.value);
+  console.log(subnetMaskValue);
+  console.log(getSubnetMask(subnetMaskValue));
+  let selectedIP = getIPNetworkInDecimal(ipNetworkInput.value);
   let binaryIPNetwork = selectedIP.map((decimalValue) =>
     convertsToByte(decimalToBinary(decimalValue))
   );
 
   // Drops all tbody content of the table
-  IP_SUBNETTING_TABLE_BODY.innerHTML = "";
+  tableBody.innerHTML = "";
 
   // Showing IP Subnetting Div
-  IP_NETWORK_SUBNETTING_DIV.style.display = "flex";
+  ipNetworkSubnettingDiv.style.display = "flex";
 
   // Modifying Table's Caption with selected IP
-  IP_SUBNETTING_TABLE_CAPTION.innerHTML =
+  tableCaption.innerHTML =
     "Direccion IP: " + ipAddressToString(binaryToIPAddress(binaryIPNetwork));
 
   // For every defined host
-  Array.from(NUMBER_OF_HOST_INPUT).forEach((input) => {
+  Array.from(numberOfHost).forEach((input) => {
     let row = document.createElement("tr");
     let cellHost = document.createElement("td");
     cellHost.setAttribute("data-cell", "Host");
@@ -162,14 +161,14 @@ function calculateSubnetting() {
       cellSubnetMask,
       cellWildcard
     );
-    IP_SUBNETTING_TABLE_BODY.appendChild(row);
+    tableBody.appendChild(row);
 
     // Setting binaryNetworkIP as nextNetworkIP
     binaryIPNetwork = values.nextNetworkIP;
   });
 
   // Adding table body to table
-  IP_SUBNETTING_TABLE.appendChild(IP_SUBNETTING_TABLE_BODY);
+  table.appendChild(tableBody);
 }
 
 /**
@@ -237,8 +236,8 @@ function getTableValues(binaryIPNetwork, input) {
 }
 
 // Adding Event Listeners to Buttons
-ADDING_HOST_BUTTON.addEventListener("click", addingHostInput);
-CALCULATE_SUBNETTING_BUTTON.addEventListener("click", calculateSubnetting);
+addingHostButton.addEventListener("click", addingHostInput);
+calcSubnetting.addEventListener("click", calculateSubnetting);
 
 // Adding Event Listeners to Inputs
 document.getElementById("number-of-host").addEventListener("change", () => {
@@ -248,23 +247,23 @@ document.getElementById("number-of-host").addEventListener("change", () => {
   }
 });
 
-IP_NETWORK_INPUT.addEventListener("input", () => {
-  let ipNetwork = getIPNetworkInDecimal(IP_NETWORK_INPUT.value);
+ipNetworkInput.addEventListener("input", () => {
+  let ipNetwork = getIPNetworkInDecimal(ipNetworkInput.value);
   let isValidIPNetwork =
     isBitInRange(ipNetwork) && isIPNetworkLengthCorrect(ipNetwork);
   if (!isValidIPNetwork) {
     isValidIPAddress = false;
-    IP_NETWORK_MESSAGE.innerHTML = "Direccion IP Invalida";
+    errorMessage.innerHTML = "Direccion IP Invalida";
   } else {
     isValidIPAddress = true;
-    IP_NETWORK_MESSAGE.innerHTML = "";
+    errorMessage.innerHTML = "";
   }
 });
 
 document.body.addEventListener("input", () => {
-  if (areHostDefinitionValid(NUMBER_OF_HOST_INPUT) && isValidIPAddress) {
-    CALCULATE_SUBNETTING_BUTTON.disabled = false;
+  if (areHostDefinitionValid(numberOfHost) && isValidIPAddress) {
+    calculateSubnetting.disabled = false;
   } else {
-    CALCULATE_SUBNETTING_BUTTON.disabled = true;
+    calculateSubnetting.disabled = true;
   }
 });

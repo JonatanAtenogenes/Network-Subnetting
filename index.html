@@ -12,45 +12,60 @@
     />
   </head>
   <body>
-    <section id="header-section">
-      <div id="header">
-        <h1>Subneteo de Redes IPv4</h1>
+    <section id="header-section" class="header-section">
+      <div id="header" class="header">
+        <h1 class="title">Subneteo de Redes IPv4</h1>
       </div>
     </section>
 
-    <section id="ip-definition-section">
-      <div id="ip-definition">
-        <label for="ip-network">Dirección IP</label>
-        <input
-          type="text"
-          name="ip-network"
-          id="ip-network"
-          placeholder="192.168.0.0"
-        />
-        <p id="ip-network-message"></p>
+    <section id="ip-definition-section" class="ip-definition-section">
+      <div id="ip-definition" class="ip-definition">
+        <label for="ip-network" class="subtitles">Dirección IP</label>
+        <div class="ip-network-subnet-mask">
+          <input
+            type="text"
+            name="ip-network"
+            class="inputs ip-network"
+            id="ip-network"
+            placeholder="192.168.0.0"
+          />
+          <select
+            name="subnet-mask"
+            id="subnet-mask-selector"
+            class="subnet-mask"
+          ></select>
+        </div>
+        <p id="error-message" class="error-message"></p>
       </div>
     </section>
 
-    <section id="host-definition-section">
-      <div id="host-definition">
-        <label for="number-of-host">No. de Host</label>
+    <section id="host-definition-section" class="host-definition-section">
+      <div id="host-definition" class="host-definition">
+        <label for="number-of-host" class="subtitles">No. de Host</label>
         <br />
-        <input
-          type="number"
-          name="number-of-host"
-          id="number-of-host"
-          class="host-definition-input"
-          value="100"
-          placeholder="100"
-          min="1"
-        />
+        <div id="host-container" class="host-container">
+          <input
+            type="number"
+            name="number-of-host"
+            id="number-of-host"
+            class="inputs number-of-host"
+            value="100"
+            placeholder="100"
+            min="1"
+          />
+        </div>
       </div>
     </section>
 
-    <section id="actions-section">
-      <div id="actions">
-        <button id="adding-host-btn">Agregar Hosts</button>
-        <button id="calculate-subnetting-btn" disabled>
+    <section id="actions-section" class="actions-section">
+      <div id="actions-container" class="actions-container">
+        <button id="adding-host" class="actions add-host-action">
+          Agregar Hosts
+        </button>
+        <button
+          id="calculate-subnetting"
+          class="actions calculate-subnetting-action"
+        >
           Realizar Subneteo
         </button>
       </div>
@@ -58,8 +73,8 @@
 
     <section id="ip-network-subnetting-section">
       <div id="ip-network-subnetting">
-        <table id="ip-subnetting-table">
-          <caption id="ip-subnetting-table-caption">
+        <table id="ip-subnetting">
+          <caption id="ip-subnetting-caption">
             IP:
           </caption>
           <thead>
@@ -71,12 +86,12 @@
               <th scope="col">IP Inicial</th>
               <th scope="col">IP Final</th>
               <th scope="col">IP Broadcast</th>
-              <th scope="col">Longitud Prefijo</th>
+              <th scope="col">Prefijo</th>
               <th scope="col">Mascara Subred</th>
               <th scope="col">Wildcard</th>
             </tr>
           </thead>
-          <tbody></tbody>
+          <tbody id="table-body"></tbody>
         </table>
       </div>
     </section>
