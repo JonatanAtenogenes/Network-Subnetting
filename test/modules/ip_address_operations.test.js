@@ -4,15 +4,7 @@ import {
   getSubnetMask,
   getPrefixLength,
   getWildcard,
-} from "../../static/modules/ip_address_operations.js";
-
-import {
-  decimalToBinary,
-  convertsToByte,
-} from "../../static/modules/binary_operations.js";
-
-const MAX_BYTE_DECIMAL = 255;
-const MAX_PREFIX_LENGTH = 32;
+} from "../../src/modules/ip_address_operations.js";
 
 // Test for binarySum function
 test("Sums binary IP network [128, 0, 0, 0] with 2 hosts correctly", () => {

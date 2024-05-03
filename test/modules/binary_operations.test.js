@@ -5,7 +5,7 @@ import {
   binaryToDecimal,
   convertsToByte,
   convertsTo4Bytes,
-} from "../../static/modules/binary_operations.js";
+} from "../../src/modules/binary_operations.js";
 
 // Test for the binarySumResults function
 test("Binary sum of 0 + 0 returns [0, 0]", () => {

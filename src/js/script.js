@@ -26,6 +26,7 @@ import {
 // Definition for Constants
 const ipNetworkInput = document.getElementById("ip-network");
 const numberOfHost = document.getElementsByClassName("number-of-host");
+const errorContainer = document.getElementById("error-container");
 const errorMessage = document.getElementById("error-message");
 const addingHostButton = document.getElementById("adding-host");
 const calcSubnetting = document.getElementById("calculate-subnetting");
@@ -37,6 +38,7 @@ const subnetMaskSelector = document.getElementById("subnet-mask-selector");
 const hostContainer = document.getElementById("host-container");
 
 let isValidIPAddress = false;
+let hosts = [];
 
 // Create the values for the subnet mask selector
 for (let index = 0; index < 32; index++) {
@@ -89,9 +91,8 @@ function addingHostInput() {
  * Calculates subnetting details based on the selected IP network and number of hosts.
  */
 function calculateSubnetting() {
+  getTotalHost();
   const subnetMaskValue = parseInt(subnetMaskSelector.value);
-  console.log(subnetMaskValue);
-  console.log(getSubnetMask(subnetMaskValue));
   let selectedIP = getIPNetworkInDecimal(ipNetworkInput.value);
   let binaryIPNetwork = selectedIP.map((decimalValue) =>
     convertsToByte(decimalToBinary(decimalValue))
@@ -108,7 +109,7 @@ function calculateSubnetting() {
     "Direccion IP: " + ipAddressToString(binaryToIPAddress(binaryIPNetwork));
 
   // For every defined host
-  Array.from(numberOfHost).forEach((input) => {
+  hosts.forEach((host) => {
     let row = document.createElement("tr");
     let cellHost = document.createElement("td");
     cellHost.setAttribute("data-cell", "Host");
@@ -132,10 +133,10 @@ function calculateSubnetting() {
     cellWildcard.setAttribute("data-cell", "Wildcard");
 
     // Calculate every necessary value
-    let values = getTableValues(binaryIPNetwork, input);
+    let values = getTableValues(binaryIPNetwork, host);
 
     // Setting values for every row
-    cellHost.appendChild(document.createTextNode(`${input.value}`));
+    cellHost.appendChild(document.createTextNode(`${host}`));
     cellBits.appendChild(document.createTextNode(`${values.necessaryBits}`));
     cellTotalHost.appendChild(document.createTextNode(`${values.totalHost}`));
     cellNetworkIP.appendChild(document.createTextNode(`${values.networkIP}`));
@@ -157,8 +158,8 @@ function calculateSubnetting() {
       cellInitialIP,
       cellFinalIP,
       cellBroadcastIP,
-      cellPrefixLength,
       cellSubnetMask,
+      cellPrefixLength,
       cellWildcard
     );
     tableBody.appendChild(row);
@@ -175,13 +176,12 @@ function calculateSubnetting() {
  * Retrieves values for subnetting table based on the provided binary IP network and input value.
  *
  * @param {number[][]} binaryIPNetwork - An array representing the binary IP network.
- * @param {HTMLInputElement} input - The input element containing the number of hosts.
+ * @param {number} host - The input element containing the number of hosts.
  * @returns {object} An object containing subnetting table values.
  *
  **/
-function getTableValues(binaryIPNetwork, input) {
-  let value = parseInt(input.value);
-  let necessaryBits = calculateNecessaryBits(value);
+function getTableValues(binaryIPNetwork, host) {
+  let necessaryBits = calculateNecessaryBits(host);
   let totalHost = pow(necessaryBits);
   let networkIP = ipAddressToString(binaryToIPAddress(binaryIPNetwork));
 
@@ -235,6 +235,14 @@ function getTableValues(binaryIPNetwork, input) {
   };
 }
 
+function getTotalHost() {
+  hosts = [];
+  Array.from(numberOfHost).forEach((input) =>
+    hosts.push(parseInt(input.value))
+  );
+  hosts.sort((a, b) => b - a);
+}
+
 // Adding Event Listeners to Buttons
 addingHostButton.addEventListener("click", addingHostInput);
 calcSubnetting.addEventListener("click", calculateSubnetting);
@@ -253,17 +261,19 @@ ipNetworkInput.addEventListener("input", () => {
     isBitInRange(ipNetwork) && isIPNetworkLengthCorrect(ipNetwork);
   if (!isValidIPNetwork) {
     isValidIPAddress = false;
+    errorContainer.style.display = "flex";
     errorMessage.innerHTML = "Direccion IP Invalida";
   } else {
     isValidIPAddress = true;
+    errorContainer.style.display = "none";
     errorMessage.innerHTML = "";
   }
 });
 
 document.body.addEventListener("input", () => {
   if (areHostDefinitionValid(numberOfHost) && isValidIPAddress) {
-    calculateSubnetting.disabled = false;
+    calcSubnetting.disabled = false;
   } else {
-    calculateSubnetting.disabled = true;
+    calcSubnetting.disabled = true;
   }
 });

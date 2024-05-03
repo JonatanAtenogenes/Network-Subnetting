@@ -4,7 +4,7 @@ import {
   binaryToIPAddress,
   ipAddressToString,
   allBitsAreZero,
-} from "../../static/modules/utils.js";
+} from "../../src/modules/utils.js";
 
 // Test for pow function
 test("Calculates power correctly for exponent 0", () => {
