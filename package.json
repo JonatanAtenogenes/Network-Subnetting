@@ -1,7 +1,7 @@
 {
   "type": "module",
   "scripts": {
-    "start": "node ../Network_Subnetting/static/js/script.js",
+    "start": "node ../Network-Subnetting/src/js/script.js",
     "test": "jest ../Network-Subnetting/test/modules/binary_operations.test.js ../Network-Subnetting/test/modules/utils.test.js ../Network-Subnetting/test/modules/ip_address_operations.test.js"
   },
   "jest": {

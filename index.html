@@ -55,7 +55,7 @@
           <input
             type="number"
             name="number-of-host"
-            id="number-of-host"
+            id="first-host"
             class="inputs number-of-host"
             value="100"
             placeholder="100"
@@ -73,7 +73,6 @@
         <button
           id="calculate-subnetting"
           class="actions calculate-subnetting-action"
-          disabled
         >
           Realizar Subneteo
         </button>
@@ -91,12 +90,12 @@
               <th scope="col">Host</th>
               <th scope="col">Bits</th>
               <th scope="col">Total Host</th>
-              <th scope="col">IP de Red</th>
-              <th scope="col">IP Inicial</th>
-              <th scope="col">IP Final</th>
-              <th scope="col">IP Broadcast</th>
-              <th scope="col">Mascara Subred</th>
-              <th scope="col">Prefijo</th>
+              <th scope="col">Network IP</th>
+              <th scope="col">Initial IP</th>
+              <th scope="col">Last IP</th>
+              <th scope="col">Broadcast IP</th>
+              <th scope="col">Subnet Mask</th>
+              <th scope="col">Prefix Length</th>
               <th scope="col">Wildcard</th>
             </tr>
           </thead>
@@ -113,6 +112,7 @@
             href="https://github.com/JonatanAtenogenes/Network-Subnetting"
             title="Repositorio del proyecto en Github"
             target="_blank"
+            class="image-link"
             ><img
               src="./src/img/github-mark-white.svg"
               alt="Github Project Repository"
@@ -121,6 +121,7 @@
             href="https://www.flaticon.es/iconos-gratis/informatica"
             title="Informática iconos creados por catkuro - Flaticon"
             target="_blank"
+            class="image-link"
             ><img
               src="./src/img/favicon.ico"
               alt="Informática iconos creados por catkuro - Flaticon"

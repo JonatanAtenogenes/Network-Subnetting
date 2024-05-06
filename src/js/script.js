@@ -39,6 +39,10 @@ const hostContainer = document.getElementById("host-container");
 
 let isValidIPAddress = false;
 let hosts = [];
+const errors = {
+  invalidAddress: "Direccion IP invalida",
+  maxHostReached: "Se ha superado el numero de host para la red solicitada",
+};
 
 // Create the values for the subnet mask selector
 for (let index = 0; index < 32; index++) {
@@ -60,18 +64,10 @@ function addingHostInput() {
   // Host Input Configuration
   hostInput.type = "number";
   hostInput.name = "number-of-host";
-  hostInput.id = "number-of-host";
   hostInput.classList.add("inputs", "number-of-host");
   hostInput.value = "100";
   hostInput.placeholder = "100";
   hostInput.min = "1";
-
-  hostInput.addEventListener("change", () => {
-    let value = parseInt(hostInput.value);
-    if (value < 1 || isNaN(value)) {
-      hostInput.value = 1;
-    }
-  });
 
   // Create a delete button
   const deleteButton = document.createElement("button");
@@ -90,11 +86,22 @@ function addingHostInput() {
 /**
  * Calculates subnetting details based on the selected IP network and number of hosts.
  */
-function calculateSubnetting() {
-  getTotalHost();
+const calculateSubnetting = () => {
+  sortDefinedHost();
+  if (!areHostsInNetwork()) {
+    setErrorMessage(errors.maxHostReached);
+    hideTable();
+    return;
+  }
+
+  if (!isPossibleToCalculateSubnetting()) {
+    return;
+  }
+
+  clearErrorMessage();
   const subnetMaskValue = parseInt(subnetMaskSelector.value);
   let selectedIP = getIPNetworkInDecimal(ipNetworkInput.value);
-  let binaryIPNetwork = selectedIP.map((decimalValue) =>
+  let networkIP = selectedIP.map((decimalValue) =>
     convertsToByte(decimalToBinary(decimalValue))
   );
 
@@ -105,8 +112,9 @@ function calculateSubnetting() {
   ipNetworkSubnettingDiv.style.display = "flex";
 
   // Modifying Table's Caption with selected IP
-  tableCaption.innerHTML =
-    "Direccion IP: " + ipAddressToString(binaryToIPAddress(binaryIPNetwork));
+  tableCaption.textContent = `Direccion IP: ${ipAddressToString(
+    binaryToIPAddress(networkIP)
+  )} /${subnetMaskValue}`;
 
   // For every defined host
   hosts.forEach((host) => {
@@ -133,23 +141,23 @@ function calculateSubnetting() {
     cellWildcard.setAttribute("data-cell", "Wildcard");
 
     // Calculate every necessary value
-    let values = getTableValues(binaryIPNetwork, host);
+    let net = getTableValues(networkIP, host);
 
     // Setting values for every row
-    cellHost.appendChild(document.createTextNode(`${host}`));
-    cellBits.appendChild(document.createTextNode(`${values.necessaryBits}`));
-    cellTotalHost.appendChild(document.createTextNode(`${values.totalHost}`));
-    cellNetworkIP.appendChild(document.createTextNode(`${values.networkIP}`));
-    cellInitialIP.appendChild(document.createTextNode(`${values.initialIP}`));
-    cellFinalIP.appendChild(document.createTextNode(`${values.finalIP}`));
+    cellHost.appendChild(document.createTextNode(host));
+    cellBits.appendChild(document.createTextNode(net.bits));
+    cellTotalHost.appendChild(document.createTextNode(net.hostInNetwork));
+    cellNetworkIP.appendChild(document.createTextNode(net.ipAddress));
+    cellInitialIP.appendChild(document.createTextNode(net.initialIPAddress));
+    cellFinalIP.appendChild(document.createTextNode(net.lastIPAddress));
     cellBroadcastIP.appendChild(
-      document.createTextNode(`${values.broadcastIP}`)
+      document.createTextNode(net.broadcastIPAddress)
     );
     cellPrefixLength.appendChild(
-      document.createTextNode(`/${values.prefixLength}`)
+      document.createTextNode(`/${net.prefixLength}`)
     );
-    cellSubnetMask.appendChild(document.createTextNode(`${values.subnetMask}`));
-    cellWildcard.appendChild(document.createTextNode(`${values.wildcard}`));
+    cellSubnetMask.appendChild(document.createTextNode(net.subnetMask));
+    cellWildcard.appendChild(document.createTextNode(net.wildcard));
     row.append(
       cellHost,
       cellBits,
@@ -164,13 +172,13 @@ function calculateSubnetting() {
     );
     tableBody.appendChild(row);
 
-    // Setting binaryNetworkIP as nextNetworkIP
-    binaryIPNetwork = values.nextNetworkIP;
+    // Setting networkIP as nextIPAddress
+    networkIP = net.nextIPAddress;
   });
 
   // Adding table body to table
   table.appendChild(tableBody);
-}
+};
 
 /**
  * Retrieves values for subnetting table based on the provided binary IP network and input value.
@@ -180,100 +188,120 @@ function calculateSubnetting() {
  * @returns {object} An object containing subnetting table values.
  *
  **/
-function getTableValues(binaryIPNetwork, host) {
-  let necessaryBits = calculateNecessaryBits(host);
-  let totalHost = pow(necessaryBits);
-  let networkIP = ipAddressToString(binaryToIPAddress(binaryIPNetwork));
-
-  // Define next Network IP
-  let nextNetworkIP = convertsTo4Bytes(
-    binaryAddition(
-      binaryIPNetwork,
-      convertsTo4Bytes(decimalToBinary(totalHost))
-    )
-  );
-
-  // Continue with table values
-  let initialIP = ipAddressToString(
-    binaryToIPAddress(
-      convertsTo4Bytes(
-        binaryAddition(binaryIPNetwork, convertsTo4Bytes(decimalToBinary(1)))
-      )
-    )
-  );
-  let finalIP = ipAddressToString(
-    binaryToIPAddress(
-      convertsTo4Bytes(
-        binarySubtraction(nextNetworkIP, convertsTo4Bytes(decimalToBinary(2)))
-      )
-    )
-  );
-  let broadcastIP = ipAddressToString(
-    binaryToIPAddress(
-      convertsTo4Bytes(
-        binarySubtraction(nextNetworkIP, convertsTo4Bytes(decimalToBinary(1)))
-      )
-    )
-  );
-  let prefixLength = getPrefixLength(necessaryBits);
+const getTableValues = (networkIP, host) => {
+  let bits = calculateNecessaryBits(host);
+  let hostInNetwork = pow(bits);
+  let ipAddress = ipAddressToString(binaryToIPAddress(networkIP));
+  let nextIPAddress = getNextIPAddress(networkIP, hostInNetwork);
+  let initialIPAddress = getInitialIPAddress(networkIP);
+  let lastIPAddress = getLastIPAddress(nextIPAddress);
+  let broadcastIPAddress = getBroadcastIPAddress(nextIPAddress);
+  let prefixLength = getPrefixLength(bits);
   let subnetMaskArray = getSubnetMask(prefixLength);
   let subnetMask = ipAddressToString(binaryToIPAddress(subnetMaskArray));
   let wildcardArray = getWildcard(subnetMaskArray);
   let wildcard = ipAddressToString(binaryToIPAddress(wildcardArray));
 
   return {
-    necessaryBits,
-    totalHost,
-    networkIP,
-    initialIP,
-    finalIP,
-    broadcastIP,
+    bits,
+    nextIPAddress,
+    hostInNetwork,
+    ipAddress,
+    initialIPAddress,
+    lastIPAddress,
+    broadcastIPAddress,
     prefixLength,
     subnetMask,
     wildcard,
-    nextNetworkIP,
   };
-}
+};
 
-function getTotalHost() {
+const getNextIPAddress = (ipAddress, hostInNetwork) => {
+  return convertsTo4Bytes(
+    binaryAddition(ipAddress, convertsTo4Bytes(decimalToBinary(hostInNetwork)))
+  );
+};
+
+const getInitialIPAddress = (ipAddress) => {
+  console.log(ipAddress);
+  return ipAddressToString(
+    binaryToIPAddress(
+      convertsTo4Bytes(
+        binaryAddition(ipAddress, convertsTo4Bytes(decimalToBinary(1)))
+      )
+    )
+  );
+};
+
+const getLastIPAddress = (nextIPAddress) => {
+  return ipAddressToString(
+    binaryToIPAddress(
+      convertsTo4Bytes(
+        binarySubtraction(nextIPAddress, convertsTo4Bytes(decimalToBinary(2)))
+      )
+    )
+  );
+};
+
+const getBroadcastIPAddress = (nextIPAddress) => {
+  return ipAddressToString(
+    binaryToIPAddress(
+      convertsTo4Bytes(
+        binarySubtraction(nextIPAddress, convertsTo4Bytes(decimalToBinary(1)))
+      )
+    )
+  );
+};
+
+const sortDefinedHost = () => {
   hosts = [];
   Array.from(numberOfHost).forEach((input) =>
     hosts.push(parseInt(input.value))
   );
   hosts.sort((a, b) => b - a);
-}
+};
+
+const areHostsInNetwork = () => {
+  const selected = subnetMaskSelector.value;
+  const intialValue = 0;
+  const maxNumberOfHost = hosts.reduce(
+    (accumulator, value) => pow(calculateNecessaryBits(value)) + accumulator,
+    intialValue
+  );
+  return pow(32 - selected) >= maxNumberOfHost;
+};
 
 // Adding Event Listeners to Buttons
 addingHostButton.addEventListener("click", addingHostInput);
 calcSubnetting.addEventListener("click", calculateSubnetting);
 
 // Adding Event Listeners to Inputs
-document.getElementById("number-of-host").addEventListener("change", () => {
-  let value = parseInt(document.getElementById("number-of-host").value);
-  if (value < 1 || isNaN(value)) {
-    document.getElementById("number-of-host").value = 1;
-  }
-});
-
 ipNetworkInput.addEventListener("input", () => {
   let ipNetwork = getIPNetworkInDecimal(ipNetworkInput.value);
   let isValidIPNetwork =
     isBitInRange(ipNetwork) && isIPNetworkLengthCorrect(ipNetwork);
   if (!isValidIPNetwork) {
     isValidIPAddress = false;
-    errorContainer.style.display = "flex";
-    errorMessage.innerHTML = "Direccion IP Invalida";
+    setErrorMessage(errors.invalidAddress);
   } else {
     isValidIPAddress = true;
-    errorContainer.style.display = "none";
-    errorMessage.innerHTML = "";
+    clearErrorMessage();
   }
 });
 
-document.body.addEventListener("input", () => {
-  if (areHostDefinitionValid(numberOfHost) && isValidIPAddress) {
-    calcSubnetting.disabled = false;
-  } else {
-    calcSubnetting.disabled = true;
-  }
-});
+const isPossibleToCalculateSubnetting = () => {
+  return areHostDefinitionValid(numberOfHost) && isValidIPAddress;
+};
+
+const setErrorMessage = (message) => {
+  errorContainer.style.display = "flex";
+  errorMessage.textContent = message;
+};
+
+const clearErrorMessage = () => {
+  errorContainer.style.display = "none";
+};
+
+const hideTable = () => {
+  ipNetworkSubnettingDiv.style.display = "none";
+};

@@ -21,14 +21,16 @@ body {
   color: #eeeeee;
   margin: 20px 50px;
   border-radius: 2rem;
+  border: 0.2rem solid #eeeeee;
 }
 
-.actions:disabled {
+.actions:hover {
   background-color: #31363f;
 }
 
-a {
-  color: #dde6ed;
+::selection {
+  color: #fff;
+  background-color: #27374d;
 }
 
 table {
@@ -56,10 +58,6 @@ table tbody tr {
 
 table tbody tr:nth-child(even) {
   background-color: #9db2bf;
-}
-
-table tbody tr:nth-child(odd) {
-  background-color: #dde6ed;
 }
 
 table tbody tr:last-of-type {
@@ -143,6 +141,11 @@ caption {
   border-radius: 12rem;
 }
 
+.image-link {
+  margin: 0rem 2rem;
+  border-radius: 2rem;
+}
+
 .subnet-mask {
   background-color: #fff;
   font-size: 2rem;
@@ -152,6 +155,7 @@ caption {
   width: 8rem;
   text-align: center;
   border: 0.2rem solid #222831;
+  color: #31363f;
 }
 
 .ip-network-subnet-mask {
@@ -163,11 +167,12 @@ caption {
 }
 
 .error-container {
-  background-color: #e72929;
+  background-color: #bf3131;
   border-radius: 1.2rem;
   margin-top: 1rem;
   padding: 0.5rem;
   display: none;
+  border: 0.2rem solid #7d0a0a;
 }
 
 .error-message {
