@@ -12,63 +12,9 @@ body {
   font-family: "Ubuntu Sans", "Courier New", Courier, monospace;
 }
 
-.actions {
-  background-color: #222831;
-  text-align: center;
-  border: none;
-  font-size: 1.8rem;
-  padding: 12px 20px;
-  color: #eeeeee;
-  margin: 20px 50px;
-  border-radius: 2rem;
-  border: 0.2rem solid #eeeeee;
-}
-
-.actions:hover {
-  background-color: #31363f;
-}
-
 ::selection {
   color: #fff;
   background-color: #27374d;
-}
-
-table {
-  border-collapse: collapse;
-  font-size: 1.5rem;
-  width: 80%;
-  margin: auto;
-}
-
-table thead tr {
-  text-align: left;
-  background-color: #27374d;
-  color: #ffffff;
-  font-weight: bold;
-}
-
-table th,
-table td {
-  padding: 10px 8px;
-}
-
-table tbody tr {
-  border-bottom: 1px solid #526d82;
-}
-
-table tbody tr:nth-child(even) {
-  background-color: #9db2bf;
-}
-
-table tbody tr:last-of-type {
-  border-bottom: 2.5px solid #526d82;
-}
-
-caption {
-  color: #31363f;
-  font-size: 2rem;
-  font-style: italic;
-  margin-bottom: 15px;
 }
 
 .inputs {
@@ -82,7 +28,7 @@ caption {
   color: #222831;
   font-size: 3.5rem;
   font-weight: 500;
-  margin: 0px 25px;
+  margin: 0 1.563rem;
 }
 
 /* General */
@@ -90,28 +36,22 @@ caption {
 /* Header Secton */
 
 .header-section {
-  margin-top: 0px;
-  margin-bottom: 0px;
-  margin-left: 0px;
-  margin-right: 0px;
+  margin: 0;
 }
 
-.header {
+.header-container {
   display: flex;
-  margin: 0px 0px;
+  margin: 0 0;
   justify-content: center;
   background-color: #222831;
   flex-wrap: wrap;
 }
 
 .title {
-  margin-top: 20px;
-  margin-bottom: 20px;
-  margin-left: 20px;
-  margin-right: 20px;
+  margin: 1.25rem;
   font-size: 8rem;
   text-align: center;
-  padding: 16px;
+  padding: 1rem;
   color: #eeeeee;
 }
 
@@ -120,10 +60,7 @@ caption {
 /* IP Definition Secton */
 
 .ip-definition-section {
-  margin-top: 10px;
-  margin-bottom: 0px;
-  margin-left: 0px;
-  margin-right: 0px;
+  margin: 0.625rem 0 0;
 }
 
 .ip-definition {
@@ -141,11 +78,6 @@ caption {
   border-radius: 12rem;
 }
 
-.image-link {
-  margin: 0rem 2rem;
-  border-radius: 2rem;
-}
-
 .subnet-mask {
   background-color: #fff;
   font-size: 2rem;
@@ -159,7 +91,7 @@ caption {
 }
 
 .ip-network-subnet-mask {
-  margin: 2rem 0rem;
+  margin: 2rem 0;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -179,31 +111,55 @@ caption {
   color: #dde6ed;
   font-style: italic;
   font-size: 2rem;
-  margin: 0px 25px;
+  margin: 0 2rem;
 }
 
 /* IP Definition Secton */
 
+/* Actions Section */
+
+.actions-container {
+  background-color: #526d82;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 1.563rem;
+}
+
+.actions {
+  background-color: #222831;
+  text-align: center;
+  font-size: 1.8rem;
+  padding: 0.75rem 1.25rem;
+  color: #eeeeee;
+  margin: 1.25rem 3.125rem;
+  border-radius: 2rem;
+  border: 0.2rem solid #eeeeee;
+}
+
+.actions:hover {
+  background-color: #31363f;
+}
+
+.add-host-action {
+  width: 18rem;
+}
+
+.calculate-subnetting-action {
+  width: 20rem;
+}
+
+/* Actions Section */
+
 /* Host Definition Section */
 
-.host-definition {
+.host-definition-container {
   background-color: #526d82;
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 25px 0px;
-}
-
-.number-of-host {
-  border-radius: 12rem;
-  width: 20rem;
-  font-size: 2.2rem;
-}
-
-#host-definition input {
-  margin: 0px 25px;
+  padding: 2rem 0;
 }
 
 .host-container {
@@ -220,87 +176,112 @@ caption {
   flex-wrap: nowrap;
   justify-content: center;
   align-items: center;
-  margin-top: 10px;
+  margin-top: 1.2rem;
+}
+
+.number-of-host {
+  border-radius: 12rem;
+  width: 20rem;
+  font-size: 2.2rem;
+  margin: 0 1.4rem;
 }
 
 .delete-host {
   padding: 0.5rem 1rem;
-  margin: 0rem 0rem;
+  margin: 0 0;
   font-size: 1.6rem;
   width: 10rem;
 }
 
 /* Host Definition Section */
 
-/* Actions Section */
-
-.actions-container {
-  background-color: #526d82;
-  display: flex;
-  justify-content: center;
-  padding-bottom: 25px;
-}
-
-.add-host-action {
-  width: 18rem;
-}
-
-.calculate-subnetting-action {
-  width: 20rem;
-}
-
-/* Actions Section */
-
 /* IP Network Subnetting Section */
 
-#ip-network-subnetting-section {
-  margin-top: 10px;
-  margin-bottom: 0px;
-  margin-left: 0px;
-  margin-right: 0px;
+.ip-network-subnetting-section {
+  margin: 0.625rem 0 0;
 }
 
-#ip-network-subnetting {
+.network-subnetting-container {
   display: none;
   justify-content: center;
-  padding: 2.5rem 0rem;
+  padding: 2.5rem 0;
 }
 
 /* IP Network Subnetting Section */
+
+/* Table Styles */
+
+table {
+  border-collapse: collapse;
+  font-size: 1.5rem;
+  width: 80%;
+  margin: auto;
+}
+
+table thead tr {
+  text-align: left;
+  background-color: #27374d;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+table th,
+table td {
+  padding: 0.625rem 0.5rem;
+}
+
+table tbody tr {
+  border-bottom: 0.063rem solid #526d82;
+}
+
+table tbody tr:nth-child(even) {
+  background-color: #9db2bf;
+}
+
+table tbody tr:last-of-type {
+  border-bottom: 0.6rem solid #526d82;
+}
+
+caption {
+  color: #31363f;
+  font-size: 2rem;
+  font-style: italic;
+  margin-bottom: 0.938rem;
+}
+
+/* Table Styles */
 
 /* Footer Section */
 
-#footer-section {
-  margin-top: auto;
-  margin-bottom: 0px;
-  margin-left: 0px;
-  margin-right: 0px;
+.footer-section {
+  margin: 0.625rem 0 0;
 }
 
-#footer {
+.footer-container {
   background-color: #31363f;
-  padding: 5px;
+  padding: 0.313rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
-#footer p {
+.footer-text {
   font-size: 1.8rem;
   color: #ffffff;
 }
 
-#footer-links {
+.footer-links {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 25px;
+  margin-bottom: 1.563rem;
 }
 
-#footer-links img {
+.image-link {
+  margin: 0 2rem;
+  border-radius: 2rem;
   height: 5rem;
-  margin: 0px 2rem;
 }
 
 /* Footer Section */
@@ -316,183 +297,128 @@ caption {
 @media screen and (max-width: 480px) {
   /* General */
 
-  input {
-    border-radius: 0rem;
-    font-size: 1.5rem;
-    width: 14rem;
-    text-align: center;
-  }
-
-  input[type="number"] {
-    font-size: 1.2rem;
-    width: 10rem;
-  }
-
-  button {
-    font-size: 1.3rem;
-    padding: 0.5rem 1.8rem;
-    margin: 0.6rem 4.5rem;
-  }
-
-  caption {
+  .inputs {
+    border: 0.2rem solid #222831;
     font-size: 1.5rem;
   }
 
-  table {
-    font-size: 1.2rem;
-  }
-
-  table td {
-    padding: 0.5rem 0.8rem;
-  }
-
-  table tbody tr {
-    border-top: 0.1rem solid #526d82;
-  }
-
-  th {
-    display: none;
-  }
-
-  td {
-    display: block;
-  }
-
-  td::before {
-    content: attr(data-cell) ": ";
-    font-weight: bold;
-  }
-
-  td:first-child {
-    padding-top: 1rem;
-  }
-
-  td:last-child {
-    padding-bottom: 1rem;
+  .subtitles {
+    color: #222831;
+    font-size: 2rem;
+    font-weight: 500;
+    margin: 0 1.563rem;
   }
 
   /* General */
 
   /* Header Secton */
 
-  #header > h1 {
-    font-size: 3rem;
+  .title {
+    font-size: 3.4rem;
   }
 
   /* Header Secton */
 
   /* IP Definition Secton */
 
-  #ip-definition {
+  .host-definition-container {
+    padding: 0.625rem;
+  }
+
+  .ip-network-subnet-mask {
+    margin: 1.4rem 0;
     flex-direction: column;
   }
 
-  #ip-definition > label {
-    margin: 1rem 2.5rem;
-    margin-top: 0rem;
-    font-size: 2.4rem;
+  .ip-network {
+    width: 15rem;
   }
 
-  #ip-network-message {
+  .subnet-mask {
     font-size: 1.2rem;
-    margin: 0.8rem 2.5rem;
+    width: 5rem;
+    margin: 0.6rem 0;
+  }
+
+  .error-container {
+    max-width: 80%;
+  }
+
+  .error-message {
+    font-size: 0.9rem;
   }
 
   /* IP Definition Secton */
 
+  /* Actions Section */
+
+  .actions-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .actions {
+    font-size: 1rem;
+    margin-top: 0.625rem;
+    margin-bottom: 0.625rem;
+    padding: 0.5rem 0.5rem;
+  }
+
+  .actions:hover {
+    background-color: #31363f;
+  }
+
+  .add-host-action {
+    width: 14rem;
+  }
+
+  .calculate-subnetting-action {
+    width: 14rem;
+  }
+
+  /* Actions Section */
+
   /* Host Definition Section */
 
-  #host-definition {
-    padding: 1.5rem 0.2rem;
-  }
-
-  #host-definition label {
-    font-size: 2.2rem;
-    margin: 0rem 2.2rem 0.6rem 2.2rem;
-  }
-
-  #host-definition input {
-    margin: 0rem 0.5rem;
+  .host-definition-container {
+    flex-direction: column;
+    align-items: center;
   }
 
   .host-container {
-    margin-top: 0.6rem;
+    margin: 0.8rem 0.2rem;
   }
 
-  .delete-host-button {
-    font-size: 1rem;
-    padding: 0.3rem 0.6rem;
+  .inner-host-container {
+    margin-top: 0.3rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .first-host {
+    margin: 0.5rem 1.4rem;
+  }
+  .number-of-host {
+    width: 10rem;
+    font-size: 1.2rem;
+  }
+
+  .custom {
+    margin: 0 1rem 0 0;
+  }
+
+  .delete-host {
+    font-size: 0.8rem;
+    width: 6rem;
+    margin: 0 0;
+    padding: 0.4rem 0.4rem;
   }
 
   /* Host Definition Section */
 
-  /* Actions Section */
-
-  #actions {
-    flex-direction: column;
-    justify-content: center;
-    padding-bottom: 2.5rem;
-  }
-
-  /* Actions Section */
-
-  /* Footer Section */
-
-  #footer {
-    text-align: center;
-  }
-
-  #footer p {
-    font-size: 1.2rem;
-    color: #ffffff;
-  }
-
-  #footer-links {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 1.2rem;
-  }
-
-  #footer-links img {
-    height: 2.5rem;
-    margin: 0.6rem 1.2rem;
-  }
-
-  /* Footer Section */
-}
-
-/* Smartphones 480px */
-/* Smartphones 480px */
-/* Smartphones 480px */
-
-/* Smartphones 481px - 768px */
-/* Smartphones 481px - 768px */
-/* Smartphones 481px - 768px */
-
-@media screen and (min-width: 481px) and (max-width: 768px) {
-  /* General */
-
-  input {
-    border-radius: 0rem;
-    font-size: 1.8rem;
-    width: 18rem;
-    text-align: center;
-  }
-
-  input[type="number"] {
-    font-size: 1.5rem;
-    width: 14rem;
-  }
-
-  button {
-    font-size: 1.8rem;
-    padding: 0.4rem 0.8rem;
-    margin: 0.5rem 5rem;
-  }
+  /* Table Style */
 
   caption {
-    font-size: 2.2rem;
+    font-size: 1.8rem;
   }
 
   table {
@@ -532,135 +458,158 @@ caption {
     padding-bottom: 1rem;
   }
 
-  /* General */
-
-  /* Header Secton */
-
-  #header > h1 {
-    font-size: 3.8rem;
-  }
-
-  /* Header Secton */
-
-  /* IP Definition Secton */
-
-  #ip-definition {
-    flex-direction: column;
-  }
-
-  #ip-definition > label {
-    margin: 0.7rem 1.2rem;
-    font-size: 2.8rem;
-  }
-
-  #ip-network-message {
-    font-size: 1.4rem;
-    margin: 0.7rem 1.2rem;
-  }
-
-  /* IP Definition Secton */
-
-  /* Host Definition Section */
-
-  #host-definition {
-    padding: 1.4rem 0rem;
-  }
-
-  #host-definition label {
-    font-size: 2.6rem;
-    margin: 0rem 0.8rem 0.8rem 0.8rem;
-  }
-
-  #host-definition input {
-    margin: 0rem 1.2rem;
-  }
-
-  .host-container {
-    margin-top: 0.5rem;
-  }
-
-  .delete-host-button {
-    font-size: 1.3rem;
-    padding: 0.3rem 0.8rem;
-  }
-
-  /* Host Definition Section */
-
-  /* Actions Section */
-
-  #actions {
-    flex-direction: column;
-    justify-content: center;
-    padding-bottom: 2.8rem;
-  }
-
-  /* Actions Section */
+  /* Table Style */
 
   /* Footer Section */
 
-  #footer {
+  .footer-text {
+    font-size: 1.5rem;
     text-align: center;
   }
 
-  #footer p {
-    font-size: 1.8rem;
-    color: #ffffff;
-  }
-
-  #footer-links {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 2rem;
-  }
-
-  #footer-links img {
-    height: 3.5rem;
-    margin: 1rem 1rem;
+  .image-link {
+    margin: 0 2rem;
+    border-radius: 2rem;
+    height: 3rem;
   }
 
   /* Footer Section */
 }
 
+/* Smartphones 480px */
+/* Smartphones 480px */
+/* Smartphones 480px */
+
 /* Smartphones 481px - 768px */
 /* Smartphones 481px - 768px */
 /* Smartphones 481px - 768px */
 
-/* Smartphones 769px - 1359px */
-/* Smartphones 769px - 1359px */
-/* Smartphones 769px - 1359px */
-
-@media screen and (min-width: 769px) and (max-width: 1279px) {
+@media screen and (min-width: 481px) and (max-width: 768px) {
   /* General */
 
-  input {
-    border-radius: 0rem;
-    font-size: 2.5rem;
-    width: 22rem;
-    text-align: center;
+  .inputs {
+    font-size: 2rem;
   }
 
-  input[type="number"] {
-    font-size: 2rem;
+  .subtitles {
+    font-size: 3rem;
+    margin: 0 1.563rem;
+  }
+
+  /* General */
+
+  /* Header Secton */
+
+  .title {
+    font-size: 4rem;
+  }
+
+  /* Header Secton */
+
+  /* IP Definition Secton */
+
+  .host-definition-container {
+    padding: 0.625rem;
+  }
+
+  .ip-network-subnet-mask {
+    margin: 1.4rem 0;
+    flex-direction: column;
+  }
+
+  .ip-network {
+    color: #31363f;
     width: 18rem;
   }
 
-  button {
-    font-size: 1.8rem;
-    padding: 1rem 1.8rem;
-    margin: 0.5rem 2rem;
+  .subnet-mask {
+    font-size: 1.6rem;
+    width: 6rem;
+    margin: 0.6rem 0;
   }
 
+  .error-container {
+    max-width: 80%;
+  }
+
+  .error-message {
+    font-size: 1.5rem;
+  }
+
+  /* IP Definition Secton */
+
+  /* Actions Section */
+
+  .actions-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .actions {
+    font-size: 1.5rem;
+    margin-top: 0.625rem;
+    margin-bottom: 0.625rem;
+    padding: 0.5rem 0.5rem;
+  }
+
+  .add-host-action {
+    width: 16rem;
+  }
+
+  .calculate-subnetting-action {
+    width: 16rem;
+  }
+
+  /* Actions Section */
+
+  /* Host Definition Section */
+
+  .host-definition-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .host-container {
+    margin: 0.8rem 0.2rem;
+  }
+
+  .inner-host-container {
+    margin: 0.3rem;
+  }
+
+  .first-host {
+    margin: 0.5rem 1.4rem;
+  }
+  .number-of-host {
+    width: 16rem;
+    font-size: 1.6rem;
+  }
+
+  .custom {
+    margin: 0 1rem 0 0;
+  }
+
+  .delete-host {
+    font-size: 1.4rem;
+    width: 8rem;
+    margin: 0 0;
+    padding: 0.4rem 0.4rem;
+  }
+
+  /* Host Definition Section */
+
+  /* Table Style */
+
   caption {
-    font-size: 2.6rem;
+    font-size: 2rem;
   }
 
   table {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
   }
 
   table td {
-    padding: 0.2rem 0.4rem;
+    padding: 0.4rem 0.6rem;
   }
 
   table tbody tr {
@@ -668,7 +617,7 @@ caption {
   }
 
   table tbody tr:last-of-type {
-    border-bottom: 0.6rem solid #526d82;
+    border-bottom: 0.4rem solid #526d82;
   }
 
   th {
@@ -692,99 +641,79 @@ caption {
     padding-bottom: 1rem;
   }
 
-  /* General */
-
-  /* Header Secton */
-
-  #header > h1 {
-    font-size: 6rem;
-  }
-
-  /* Header Secton */
-
-  /* IP Definition Secton */
-
-  #ip-definition {
-    flex-direction: column;
-  }
-
-  #ip-definition > label {
-    margin: 1rem 1.2rem;
-    font-size: 4rem;
-  }
-
-  #ip-network-message {
-    font-size: 1.9rem;
-    margin: 1rem 1.6rem;
-  }
-
-  /* IP Definition Secton */
-
-  /* Host Definition Section */
-
-  #host-definition {
-    padding: 1.8rem 0.6rem;
-  }
-
-  #host-definition label {
-    font-size: 3.5rem;
-    margin: 0rem 0.8rem 0.5rem 0.8rem;
-  }
-
-  #host-definition input {
-    margin: 0.2rem 1.2rem;
-  }
-
-  .host-container {
-    margin-top: 0.5rem;
-  }
-
-  .delete-host-button {
-    font-size: 1.6rem;
-    padding: 0.3rem 0.8rem;
-  }
-
-  /* Host Definition Section */
-
-  /* IP Network Subnetting Section */
-
-  #ip-network-subnetting {
-    display: none;
-  }
-
-  #ip-network-subnetting {
-    justify-content: center;
-    padding: 2.5rem 2.5rem;
-  }
-
-  /* IP Network Subnetting Section */
+  /* Table Style */
 
   /* Footer Section */
 
-  #footer {
+  .footer-text {
+    font-size: 1.5rem;
     text-align: center;
   }
 
-  #footer p {
-    font-size: 2.2rem;
-    color: #ffffff;
-  }
-
-  #footer-links {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 1.5rem;
-  }
-
-  #footer-links img {
-    height: 5rem;
-    margin: 1rem 1rem;
+  .image-link {
+    margin: 0 2rem;
+    border-radius: 2rem;
+    height: 3rem;
   }
 
   /* Footer Section */
 }
 
-/* Smartphones 769px - 1359px */
-/* Smartphones 769px - 1359px */
-/* Smartphones 769px - 1359px */
+/* Smartphones 481px - 768px */
+/* Smartphones 481px - 768px */
+/* Smartphones 481px - 768px */
+
+/* Smartphones 769px - 1279px */
+/* Smartphones 769px - 1279px */
+/* Smartphones 769px - 1279px */
+
+@media screen and (min-width: 769px) and (max-width: 1279px) {
+  /* Table Style */
+
+  caption {
+    font-size: 2.2rem;
+  }
+
+  table {
+    font-size: 1.8rem;
+  }
+
+  table td {
+    padding: 0.2rem 0.4rem;
+  }
+
+  table tbody tr {
+    border-top: 0.1rem solid #526d82;
+  }
+
+  table tbody tr:last-of-type {
+    border-bottom: 0.3rem solid #526d82;
+  }
+
+  th {
+    display: none;
+  }
+
+  td {
+    display: block;
+  }
+
+  td::before {
+    content: attr(data-cell) ": ";
+    font-weight: bold;
+  }
+
+  td:first-child {
+    padding-top: 1rem;
+  }
+
+  td:last-child {
+    padding-bottom: 1rem;
+  }
+
+  /* Table Style */
+}
+
+/* Smartphones 769px - 1279px */
+/* Smartphones 769px - 1279px */
+/* Smartphones 769px - 1279px */

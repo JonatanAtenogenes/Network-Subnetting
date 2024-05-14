@@ -1,135 +1,138 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Subneteo de Redes IPv4</title>
-    <link rel="stylesheet" href="./src/css/style.css" />
+    <link rel="stylesheet" href="./src/css/style.css"/>
     <link
-      rel="shortcut icon"
-      href="./src/img/favicon.ico"
-      type="image/x-icon"
+        rel="shortcut icon"
+        href="./src/img/favicon.ico"
+        type="image/x-icon"
     />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
     <link
-      href="https://fonts.googleapis.com/css2?family=Ubuntu+Sans:ital,wght@0,100..800;1,100..800&display=swap"
-      rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Ubuntu+Sans:ital,wght@0,100..800;1,100..800&display=swap"
+        rel="stylesheet"
     />
-  </head>
-  <body>
-    <section id="header-section" class="header-section">
-      <div id="header" class="header">
+</head>
+<body>
+<section id="header-section" class="header-section">
+    <div id="header-container" class="header-container">
         <h1 class="title">Subneteo de Redes IPv4</h1>
-      </div>
-    </section>
+    </div>
+</section>
 
-    <section id="ip-definition-section" class="ip-definition-section">
-      <div id="ip-definition" class="ip-definition">
+<section id="ip-definition-section" class="ip-definition-section">
+    <div id="ip-definition" class="ip-definition">
         <label for="ip-network" class="subtitles">Dirección IP</label>
         <div id="error-container" class="error-container">
-          <p id="error-message" class="error-message"></p>
+            <p id="error-message" class="error-message"></p>
         </div>
         <div class="ip-network-subnet-mask">
-          <input
-            type="text"
-            name="ip-network"
-            class="inputs ip-network"
-            id="ip-network"
-            placeholder="192.168.0.0"
-          />
-          <select
-            name="subnet-mask"
-            id="subnet-mask-selector"
-            class="subnet-mask"
-          ></select>
+            <input
+                type="text"
+                name="ip-network"
+                class="inputs ip-network"
+                id="ip-network"
+                placeholder="192.168.0.0"
+            />
+            <label for="subnet-mask-selector"></label>
+            <select
+                name="subnet-mask"
+                id="subnet-mask-selector"
+                class="subnet-mask"
+            ></select>
         </div>
-      </div>
-    </section>
+    </div>
+</section>
 
-    <section id="host-definition-section" class="host-definition-section">
-      <div id="host-definition" class="host-definition">
-        <label for="number-of-host" class="subtitles">No. de Host</label>
-        <br />
+<section id="host-definition-section" class="host-definition-section">
+    <div id="host-definition-container" class="host-definition-container">
+        <label for="first-host" class="subtitles">No. de Host</label>
         <div id="host-container" class="host-container">
-          <input
-            type="number"
-            name="number-of-host"
-            id="first-host"
-            class="inputs number-of-host"
-            value="100"
-            placeholder="100"
-            min="1"
-          />
+            <input
+                type="number"
+                name="number-of-host"
+                id="first-host"
+                class="inputs number-of-host first-host"
+                value="100"
+                placeholder="100"
+                min="1"
+            />
         </div>
-      </div>
-    </section>
+    </div>
+</section>
 
-    <section id="actions-section" class="actions-section">
-      <div id="actions-container" class="actions-container">
+<section id="actions-section" class="actions-section">
+    <div id="actions-container" class="actions-container">
         <button id="adding-host" class="actions add-host-action">
-          Agregar Hosts
+            Agregar Hosts
         </button>
         <button
-          id="calculate-subnetting"
-          class="actions calculate-subnetting-action"
+            id="calculate-subnetting"
+            class="actions calculate-subnetting-action"
         >
-          Realizar Subneteo
+            Realizar Subneteo
         </button>
-      </div>
-    </section>
+    </div>
+</section>
 
-    <section id="ip-network-subnetting-section">
-      <div id="ip-network-subnetting">
+<section id="network-subnetting-section" class="network-subnetting-section">
+    <div
+        id="network-subnetting-container"
+        class="network-subnetting-container"
+    >
         <table id="ip-subnetting">
-          <caption id="ip-subnetting-caption">
-            IP:
-          </caption>
-          <thead>
+            <caption id="ip-subnetting-caption">
+                IP:
+            </caption>
+            <thead>
             <tr>
-              <th scope="col">Host</th>
-              <th scope="col">Bits</th>
-              <th scope="col">Total Host</th>
-              <th scope="col">Network IP</th>
-              <th scope="col">Initial IP</th>
-              <th scope="col">Last IP</th>
-              <th scope="col">Broadcast IP</th>
-              <th scope="col">Subnet Mask</th>
-              <th scope="col">Prefix Length</th>
-              <th scope="col">Wildcard</th>
+                <th scope="col">Host</th>
+                <th scope="col">Bits</th>
+                <th scope="col">Total Host</th>
+                <th scope="col">IP de Red</th>
+                <th scope="col">IP Inicial</th>
+                <th scope="col">IP Final</th>
+                <th scope="col">IP de Broadcast</th>
+                <th scope="col">Mascara de Subred</th>
+                <th scope="col">Prefijo</th>
+                <th scope="col">Wildcard</th>
             </tr>
-          </thead>
-          <tbody id="table-body"></tbody>
+            </thead>
+            <tbody id="table-body"></tbody>
         </table>
-      </div>
-    </section>
+    </div>
+</section>
 
-    <section id="footer-section">
-      <div id="footer">
-        <p>Desarrollado por Jonatan Atenogenes</p>
-        <div id="footer-links">
-          <a
-            href="https://github.com/JonatanAtenogenes/Network-Subnetting"
-            title="Repositorio del proyecto en Github"
-            target="_blank"
-            class="image-link"
+<section id="footer-section" class="footer-section">
+    <div id="footer-container" class="footer-container">
+        <p class="footer-text">Desarrollado por Jonatan Atenogenes</p>
+        <div id="footer-links" class="footer-links">
+            <a
+                href="https://github.com/JonatanAtenogenes/Network-Subnetting"
+                title="Repositorio del proyecto en Github"
+                target="_blank"
             ><img
-              src="./src/img/github-mark-white.svg"
-              alt="Github Project Repository"
-          /></a>
-          <a
-            href="https://www.flaticon.es/iconos-gratis/informatica"
-            title="Informática iconos creados por catkuro - Flaticon"
-            target="_blank"
-            class="image-link"
+                src="./src/img/github-mark-white.svg"
+                alt="Github Project Repository"
+                class="image-link"
+            /></a>
+            <a
+                href="https://www.flaticon.es/iconos-gratis/informatica"
+                title="Informática iconos creados por catkuro - Flaticon"
+                target="_blank"
             ><img
-              src="./src/img/favicon.ico"
-              alt="Informática iconos creados por catkuro - Flaticon"
-          /></a>
+                src="./src/img/favicon.ico"
+                alt="Informática iconos creados por catkuro - Flaticon"
+                class="image-link"
+            /></a>
         </div>
-      </div>
-    </section>
+    </div>
+</section>
 
-    <script src="./src/js/script.js" type="module"></script>
-  </body>
+<script src="./src/js/script.js" type="module"></script>
+</body>
 </html>
